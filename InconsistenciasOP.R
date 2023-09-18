@@ -17,63 +17,17 @@ grupos <- "Grupos.xlsx"
 
 sql <- 
 "
-SELECT encuestador ENCUESTADOR, depto DEPTO, mupio MUPIO, sector SECTOR, estructura ESTRUCTURA, vivienda VIVIENDA, hogar HOGAR, p.cp CP, 
-	10 CAPITULO, 'C' SECCION, 2 PREGUNTA,
-	'P10C02 Ocupación principal falta o insuficientemente descrita' AS 'DEFINICION DE INCONSISTENCIA',
-	'10C00251' AS 'CODIGO ERROR', '' COMENTARIOS,
-	p.p10c02 VALOR
-FROM `level-1` l
-	INNER JOIN cases c ON c.id=l.`case-id`
-	INNER JOIN personas p ON p.`level-1-id` = l.`level-1-id` 
-	INNER JOIN caratula r ON r.`level-1-id`=l.`level-1-id`
-WHERE c.deleted=0 AND p.p10c01>=1 AND r.estado_pr=1 AND (LENGTH(IFNULL(p.p10c02,''))<=3 OR UPPER(IFNULL(p.p10c02,'')) IN ('NO','NA','N/A','NADA','ESTUDIA','ESTUDIAR','NINGUNO') ) AND 
-	DATEDIFF(CURDATE(),(SELECT STR_TO_DATE(MAX(v.r1_fecha_inicial),'%d/%m/%y') FROM registro_de_visitas_pr v WHERE v.`level-1-id`=l.`level-1-id`))<=4
-UNION
-SELECT encuestador ENCUESTADOR, depto DEPTO, mupio MUPIO, sector SECTOR, estructura ESTRUCTURA, vivienda VIVIENDA, hogar HOGAR, p.cp CP, 
-	10 CAPITULO, 'C' SECCION, 3 PREGUNTA,
-	'P10C03 Actividad principal falta o insuficientemente descrita' AS 'DEFINICION DE INCONSISTENCIA',
-	'10C00351' AS 'CODIGO ERROR', '' COMENTARIOS,
-	p.p10c03 VALOR
-FROM `level-1` l
-	INNER JOIN cases c ON c.id=l.`case-id`
-	INNER JOIN personas p ON p.`level-1-id` = l.`level-1-id` 
-	INNER JOIN caratula r ON r.`level-1-id`=l.`level-1-id`
-WHERE c.deleted=0 AND p.p10c01>=1 AND r.estado_pr=1 AND (LENGTH(IFNULL(p.p10c03,''))<=3 OR UPPER(IFNULL(p.p10c03,'')) IN ('NO','NA','N/A','NADA','ESTUDIA','ESTUDIAR','NINGUNA','NINGUNO') ) AND 
-	DATEDIFF(CURDATE(),(SELECT STR_TO_DATE(MAX(v.r1_fecha_inicial),'%d/%m/%y') FROM registro_de_visitas_pr v WHERE v.`level-1-id`=l.`level-1-id`))<=4
-UNION
-SELECT encuestador ENCUESTADOR, depto DEPTO, mupio MUPIO, sector SECTOR, estructura ESTRUCTURA, vivienda VIVIENDA, hogar HOGAR, p.cp CP, 
-	10 CAPITULO, 'C' SECCION, 4 PREGUNTA,
-	'P10C04 Empresa falta o insuficientemente descrita' AS 'DEFINICION DE INCONSISTENCIA',
-	'10C00451' AS 'CODIGO ERROR', '' COMENTARIOS,
-	p.p10c04 VALOR
-FROM `level-1` l
-	INNER JOIN cases c ON c.id=l.`case-id`
-	INNER JOIN personas p ON p.`level-1-id` = l.`level-1-id` 
-	INNER JOIN caratula r ON r.`level-1-id`=l.`level-1-id`
-WHERE c.deleted=0 AND p.p10c01>=1 AND r.estado_pr=1 AND (LENGTH(IFNULL(p.p10c04,''))<=2 OR UPPER(IFNULL(p.p10c04,'')) IN ('NO','NA','N/A','POR','NADA','ESTUDIA','ESTUDIAR') ) AND 
-	DATEDIFF(CURDATE(),(SELECT STR_TO_DATE(MAX(v.r1_fecha_inicial),'%d/%m/%y') FROM registro_de_visitas_pr v WHERE v.`level-1-id`=l.`level-1-id`))<=4
-UNION
-SELECT encuestador ENCUESTADOR, depto DEPTO, mupio MUPIO, sector SECTOR, estructura ESTRUCTURA, vivienda VIVIENDA, hogar HOGAR, p.cp CP, 
-	10 CAPITULO, 'C' SECCION, 7 PREGUNTA,
-	'P10C07 Productos falta o insuficientemente descrita' AS 'DEFINICION DE INCONSISTENCIA',
-	'10C00751' AS 'CODIGO ERROR', '' COMENTARIOS,
-	p.p10c07 VALOR
-FROM `level-1` l
-	INNER JOIN cases c ON c.id=l.`case-id`
-	INNER JOIN personas p ON p.`level-1-id` = l.`level-1-id` 
-	INNER JOIN caratula r ON r.`level-1-id`=l.`level-1-id`
-WHERE c.deleted=0 AND p.p10c01>=1 AND r.estado_pr=1 AND (LENGTH(IFNULL(p.p10c07,''))<=2 OR UPPER(IFNULL(p.p10c07,'')) IN ('NO','NA','N/A','POR','NADA','ESTUDIA','ESTUDIAR') ) AND 
-	DATEDIFF(CURDATE(),(SELECT STR_TO_DATE(MAX(v.r1_fecha_inicial),'%d/%m/%y') FROM registro_de_visitas_pr v WHERE v.`level-1-id`=l.`level-1-id`))<=4;
+SELECT * FROM visitas WHERE occ = -1
 "
 
 data <- NULL
 ex <- tryCatch({
   cnn <- dbConnect(MySQL(), 
-                   user = 'mchinchilla', 
-                   password = 'mchinchilla$2023', 
-                   dbname = 'ENCOVI_PR', 
-                   host = '20.10.8.4', 
-                   port=3307)
+                   user = 'rrcastillo', 
+                   password = 'Rcastillo2023', 
+                   dbname = 'encabih', 
+                   host = '10.0.0.90', 
+                   port=3308)
   
   #Obtener datos de ocupaciones
   data <- dbGetQuery(cnn, sql)
@@ -82,10 +36,10 @@ ex <- tryCatch({
   dbDisconnect(cnn)
 })
 
-if (nrow(data) >= 1) {
+if (FALSE) {
   gs <- read_excel(file.path(ruta, grupos))
   data <- data %>% 
-    left_join(gs, by = c("DEPTO", "MUPIO", "SECTOR"))
+    left_join(gs, by = c("P01A02", "P01A03", "P01A04"))
 
   message(paste0("Total de inconsistencias: ", nrow(data)))
   

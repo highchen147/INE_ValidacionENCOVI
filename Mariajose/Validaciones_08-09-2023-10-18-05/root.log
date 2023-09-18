@@ -1,0 +1,22 @@
+INFO - Log de condiciones convertidas a formato pandas
+INFO - Inicio del proceso de validación de datos.
+INFO - Se encontraron 87 condiciones.
+ERROR - (P03A01A <> "" | P03A01B <>"") & (P03A02 es (vacío) | P03A03 es (vacío) | P03A04B es (vacío) | P03A04C es (vacío) | P03A04D es (vacío) | P03A04A es (vacío) | P03A05 es (vacío) | P03A06  es (vacío) | P03A08 es (vacío) | P03A09 es (vacío) | P03A110A es (vacío) | P03A11B es (vacío) | P03A11C es (vacío) | P03A11D es (vacío) | P03A11E es (vacío) | P03A11F es (vacío) | P03A12 es (vacío) | P03A13 es (vacío) | P03A14 es (vacío)): 'NoneType' object has no attribute 'drop'. Error de DT
+ERROR - P03A03 < 7 & (P03C01 no es (vacío) | P03C02A no es (vacío) | P03C02B no es (vacío) | P03C02C no es (vacío) | P03C02D no es (vacío) | P03C02E no es (vacío) | P03C03 no es (vacío) | P03C04 no es (vacío) | P03C05 no es (vacío) | : ('EOF in multi-line statement', (2, 0)). Error de DT
+ERROR - P03C02 = 1 & P03C03 no es (vacío): 'NoneType' object has no attribute 'drop'. Error de DT
+ERROR - P03C02 = 2 & P03C03 es (vacío): 'NoneType' object has no attribute 'drop'. Error de DT
+ERROR - CP mujer elegida no es (vacío) & P01D08  está en (1,2) & P04A01 es (vacío): 'P01D04A'. Error de DT
+ERROR - P04A01 - está en (2,3) & P04A04 = 1 & P04A08 <> 4: Python keyword not valid identifier in numexpr query (<unknown>, line 1). Error de DT
+ERROR - P04A01 - está en (2,3) & P04A04 = 2 & P04A05 es (vacío): Python keyword not valid identifier in numexpr query (<unknown>, line 1). Error de DT
+ERROR - P04A01 - está en (2,3) & P04A04 = 2 & P04A05 está en (1,2,3,4,5) & P04A08 <> 5: Python keyword not valid identifier in numexpr query (<unknown>, line 1). Error de DT
+ERROR - P04A01 - está en (2,3) & P04A04 = 2 & P04A05 = 6 & P04A08 <> 6: Python keyword not valid identifier in numexpr query (<unknown>, line 1). Error de DT
+ERROR - P04A08 está en (2,3,4,5,6,7) & P04B06 está en (vacío): name 'vacio' is not defined. Error de DT
+ERROR - P05B01 = 2 & (P05D01 no es (vacío) | P05D02 no es (vacío) | P05D02A no es (vacío) | P05D03 no es (vacío) | P05D04A no es (vacío) | P05D04B no es (vacío) | P05D05 no es (vacío) | P05D05A no es (vacío) | P05D06 no es (vacío) | P05D07 no es (vacío) | P05D08 no es (vacío) | P05D09 no es (vacío) | P05D10 no es (vacío) | P05D11 no es (vacío) | P05D12 no es (vacío) | P05D13 no es (vacío) | P05D14 no es (vacío) |P05D15 no es (vacío) | P05E01 no es (vacío) | P05E01A no es (vacío)): Passing 'suffixes' which cause duplicate columns {'OCC_x'} is not allowed.. Error de DT
+ERROR - P05C02 está en (1,2,3) & P05C03 es (vacío) | P05C04 es (vacío)): ('EOF in multi-line statement', (2, 0)). Error de DT
+ERROR - P05C02 = 4 & P05C03 no es (vacío) | P05C04 no es (vacío)): ('EOF in multi-line statement', (2, 0)). Error de DT
+ERROR - (P05D03 = 2 & P05D04A = 2 & P05D04B = 2) & (P05D05 no es (vacío) | P05D05A no es (vacío) | P05D06 no es (vacío) | P05D07 no es (vacío) | P05D08 no es (vacío) | P05D09 no es (vacío) | P05D10 no es (vacío) | P05D11 no es (vacío) | P05D12 no es (vacío) | P05D13 no es (vacío) | P05D14 no es (vacío)): Passing 'suffixes' which cause duplicate columns {'OCC_x'} is not allowed.. Error de nan
+ERROR - P06A01 = 2 & (P06A02 no es (vacío) | P06A03 no es (vacío) | P06A04 no es (vacío) | P06A05 no es (vacío) | P06A06 no es (vacío) | P06A06A no es (vacío) | P06B01A no es (vacío) | P06B01B no es (vacío) | P06B01C no es (vacío) | P06B01D no es (vacío) | P06B01E no es (vacío) | P06B01F no es (vacío) | P06B01G no es (vacío) | P06B01H no es (vacío) | P06B01I no es (vacío) | P06B01J no es(vacío) | P06B02A no es (vacío) | P06B02B no es (vacío) | P06B02C no es (vacío) | P06B02D no es (vacío) | P06B02E no es (vacío) | P06D15 no es (vacío) | P06E01 no es (vacío) | P06B03 no es (vacío) | P06C01 no es (vacío) | P06C02 no es (vacío) | P06C03 no es (vacío) | P06C04 no es (vacío) | P06D01 no es (vacío) | P06D02 no es (vacío) | P06D02A no es (vacío) | P06D03 no es (vacío) | P06D04A  no es (vacío) | P06D04B no es (vacío) | P06D05 no es (vacío) | P06D05A no es (vacío) | P06D06 no es (vacío) | P06D07 no es (vacío) | P06D08 no es (vacío) | P06D09 no es (vacío) | P06D10 no es (vacío) | P06D11 no es (vacío) | P06D12 no es (vacío) | P06D13 no es (vacío) | P06D14 no es (vacío)): 'NoneType' object has no attribute 'drop'. Error de nan
+WARNING - R[write to console]: Loading required package: DBI
+
+WARNING - R[write to console]: No se recuperó información
+

@@ -1,0 +1,15 @@
+INFO - Log de condiciones convertidas a formato pandas
+INFO - Inicio del proceso de validación de datos.
+INFO - Se encontraron 198 condiciones.
+ERROR - P01D07 es (vacío): 'P01D04A'. Error de DT
+ERROR - P01D08 es (vacío): 'P01D04A'. Error de DT
+ERROR - (P03C02A = 1 & P03C02B = 1 & P03C02C = 1 & P03C02D = 1 & P03C02E = 1 & P03C02F = 1)  & P03C03 no es (vacío): 'NoneType' object has no attribute 'drop'. Error de DT
+ERROR - (P03C02A = 2 | P03C02B = 2 | P03C02C = 2 | P03C02D = 2 | P03C02E = 2 | P03C02F = 2) & P03C03 es (vacío): 'NoneType' object has no attribute 'drop'. Error de DT
+ERROR - CP_ELEGIDA no es (vacío) & P01D08  está en (1,2) & P04A01 es (vacío): 'P01D04A'. Error de DT
+ERROR - P04A08 = 1 & (P09B01 no es (vacío) | P09B02 no es (vacío) | P09B03 no es (vacío) | P09B04 no es (vacío)): Unable to allocate 1.28 GiB for an array with shape (7, 24467249) and data type object. Error de DT
+ERROR - P09D03 = 98 & P09D03A = "": 'NoneType' object has no attribute 'drop'. Error de DT
+ERROR - P09D04 = 98 & P09D04A = "": 'NoneType' object has no attribute 'drop'. Error de DT
+WARNING - R[write to console]: Loading required package: DBI
+
+WARNING - R[write to console]: No se recuperó información
+

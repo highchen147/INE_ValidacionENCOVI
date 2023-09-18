@@ -22,13 +22,13 @@ from .conexionSQL import baseSQL
 
 
 class Validador:
-    def __init__(self, ruta_expresiones: str="Expresiones.xlsx", descargar: bool=True):
+    def __init__(self, ruta_expresiones: str="estructuras.xlsx", descargar: bool=True):
         self.df_ = pd.DataFrame
         # nuevo
         self.sql = baseSQL(descargar)
         self.df = pd.DataFrame
-        self.expresiones = pd.read_excel(ruta_expresiones)
-        self.columnas = ["DEPTO", "MUPIO","SECTOR","ESTRUCTURA","VIVIENDA","HOGAR", "CP","ENCUESTADOR"]
+        self.expresiones = pd.read_excel(ruta_expresiones, sheet_name="Validaciones")
+        self.columnas = ["P01A02", "P01A03","P01A04","P01A05","P01A06","P01A07", "CP","P01D10B"] # Cambiar nombres
         self._capturar_converciones = False
         self.__replacements = {
             '<=': '<=',
@@ -158,7 +158,7 @@ class Validador:
         return copy.deepcopy(filtered_df)
 
 
-    # Función para leer todos los criterios y exportar un solo excel con las columnas DEPTO, MUPIO, HOGAR, CP, CAPITULO, SECCION
+    # Función para leer todos los criterios y exportar un solo excel con las columnas P01A02, P01A03, P01A07, CP, CAPITULO, SECCION
     def process_to_export(self, fecha_inicio: datetime, fecha_final: datetime):
         try:
             # Calcular el total de condiciones
@@ -185,13 +185,13 @@ class Validador:
             pbar = tqdm(total=total_conditions, unit='condicion')
 
             # Hacer cuadruplas con condicion, capitulo, seccion, etc
-            conditions = list(self.expresiones["Condición o Criterio"]) 
-            capitulos = list(self.expresiones["Capítulo"])
-            secciones = list(self.expresiones["Sección"])
-            pregunta = list(self.expresiones["Pregunta"]) 
-            descripcion_inconsistencia = list(self.expresiones["Definición de la Validación"])
-            codigo_error = list(self.expresiones["Código de Error"])
-            analista = list(self.expresiones["Analista"])
+            conditions = list(self.expresiones["CONDICIÓN O CRITERIO"]) 
+            capitulos = list(self.expresiones["CAPÍTULO"])
+            secciones = list(self.expresiones["SECCIÓN"])
+            pregunta = list(self.expresiones["PREGUNTA"]) 
+            descripcion_inconsistencia = list(self.expresiones["DEFINICIÓN DE LA VALIDACIÓN"])
+            codigo_error = list(self.expresiones["CÓDIGO DE ERROR"])
+            analista = list(self.expresiones["ANALISTA"])
 
             cuadruplas_exportacion = list(zip(capitulos, secciones, descripcion_inconsistencia, conditions, pregunta, codigo_error, analista))
 
@@ -204,14 +204,14 @@ class Validador:
                     Validacion = self.filter_base(cond, self.columnas, fecha_inicio, fecha_final)
                     if Validacion.shape[0] == 0:
                         continue 
-                    Validacion["CAPITULO"] = cap
                     Validacion["SECCION"] = sec
+                    Validacion["CAPITULO"] = cap
                     Validacion["PREGUNTA"] = preg
                     Validacion["DEFINICION DE INCONSISTENCIA"] = desc
                     Validacion["CODIGO ERROR"] = cod
                     Validacion["COMENTARIOS"] = None
                     Validacion["CONDICION"] = cond
-                    Validacion = Validacion[["ENCUESTADOR","DEPTO","MUPIO","SECTOR","ESTRUCTURA","VIVIENDA","HOGAR","CP","CAPITULO","SECCION","PREGUNTA","DEFINICION DE INCONSISTENCIA","CODIGO ERROR","COMENTARIOS"]]
+                    Validacion = Validacion[["P01D10B","P01A02","P01A03","P01A04","P01A05","P01A06","P01A07","CP","CAPITULO","SECCION","PREGUNTA","DEFINICION DE INCONSISTENCIA","CODIGO ERROR","COMENTARIOS"]]
                     dfs.append(Validacion)  # Agregar el dataframe a la lista de dataframes
                 except Exception as e:
                     # Manejar error específico de una expresión
@@ -227,11 +227,19 @@ class Validador:
 
             self.df_ = dfs
             df_power = pd.concat(dfs) # Hacer copia de los dfs para exportar por supervisor luego
+            df_power = df_power.drop_duplicates()
             df_power.to_csv(os.path.join(carpeta_padre, f'InconsistenciasPowerBi_{dia}-{mes}-{año}.csv'), index=False)
 
-            for upm, sectors in self.dic_upms.items():
-                # Filtra las filas donde la columna "SECTOR" está en los valores de la UPM actual
-                filtered_df = df_power[df_power["SECTOR"].isin(sectors)]
+            df_resumen = (df_power[["CODIGO ERROR","DEFINICION DE INCONSISTENCIA"]]
+                          .groupby(by=["CODIGO ERROR", "DEFINICION DE INCONSISTENCIA"])
+                          .size()
+                          .reset_index(name='Frecuencia'))
+            
+            df_resumen.to_excel(os.path.join(carpeta_padre, f'InconsistenciasResumen_{dia}-{mes}-{año}.xlsx'), index=False)
+
+            for upm, P01A04s in self.dic_upms.items():
+                # Filtra las filas donde la columna "P01A04" está en los valores de la UPM actual
+                filtered_df = df_power[df_power["P01A04"].isin(P01A04s)]
 
                 # Exporta el DataFrame filtrado a un archivo Excel
                 filtered_df.to_excel(os.path.join(carpeta_padre, f'Inconsistencias{upm}_{dia}-{mes}-{año}.xlsx'), index=False)
@@ -366,20 +374,21 @@ class Validador:
                 group_number = int(match.group(1))
                 files_dict[group_number] = f
 
-        folder_ids = ["1PVrC64OpF4lLUTn7GB78NDk4tVHKt_9p","1BCUo3eRu4keGA1BxRaDQz7MpD-9Kybam","124JJ2lqUViTPccSSDmX5BaCnwSh0VTTL","1SaOktnsV36R_zUB-_i3LBTmZVhwcVsps",
-                "1cL7VHAHUwsRymHoRS35uqfkSAY443yG_","1uKxCkBWQUrhsYi3TPJvDsGgOpbjPG7iS","19mX4lM2KpJH4BtxOgux9C3OcmyfBbTPX",
-                "1JoxWGL90fxwvIUXOJNs7X6X4qJwt2xML","1cUSFdi2Iy1_8NG7MSqwLThkjJqhZG3Lh","1r8v7-7QuD7I7M31cPimxM6UvKRuHWIue",
-                "1MlXNuRpvZ-uZVToix0rA8_COvIV_sz41",
-                "190oc3i_n1SdB1WEBwDTjs7kKr-NGftou","1FZmN3LKUnCEDKJBeRAa8ass5DYjmQeKH","1Pe-P-RYDR8LaKZxdJmXAerhOe4JcJLVf",
-                "1QtWFQfRHUSn7F3cqJOkEJtIERl7Sfe-N","1oqRunCgEdN9EAmaUrwwXck18GjQL9hSW","1c_t2TkrO6iXo583ePsHDGNco7dNZ1-3v",
-                "1I6mmP-kx456tSofwOg5YG5HGE93EGams","1KtGdixpy-p8JEj45NfoEb8JtZ29xYpFS","1kQVlHOIBO-p1bmsk-rgxCVjG6P_V2TGr",
-                "1my1uG69TEZba7xSLbdaHphYyb9lOLFtg","1K921NLXIqY5oRyxxivqdL5D7CIFwPjm-","1CnfCG1zkXcHGjvS3GeHMb13_tzOooWn4",
-                "1Sm-YBHKldQ8epDdqDUVfGCo0lQ1v0sCp","1yO0qyfXWg9Y0lVXWGWB4lTIeYkIGtY9I","11z9lGtsWFWgotd05xK-0VHHd-kVYNAGV",
-                "1m92ZurDG-J4_aqPnCub88HsYnWtaEaUI","1-sKuqlI8uTdgJ20PsF0_OwPAF84ZxDPH",
-                "1OKlNUxasy5eXpmqLJIZCXK5PoOoMoGVC","1b4Ya2RjwkmymD0IhI81Lq36KhTh5aTXw","11KOYySNg6CCDNEA_8UawUuU45wplZbO5",
-                "1uWIq6hM3BNjtXOFQ2g4ifwufZGBDvHUf","1vSyw6zjJ3iMBNealEETEaOvmFKfo6OA0","15NVXVv5LFQ7vs-d-YmVptUBnx3ZxrxKx",
-                "1qB5f-R2XEyfiEwpJH_9U3gTQfJRUwf5N","1NmLZNNgnZA3jaXx4td0tITiPaMlvD_3m","1DvvWSgpLFmLnpH4Yv074gPqebKjyaBo3",
-                "1FRz1FK4ogxvzcFSQUjIiMaBPjUqH7lvA","1IdZdQ6Y8ExDs4XhdQmDJjnyp1JrnrRFW"]
+        folder_ids = ["1GpxN_g67E0Knv7ZLn7kPRbi2UmfUVvf2", "17wcfDgZ845YaHOxUVAXmWUmuczq488BF", 
+                      "1cGCdFA3Z3KhlWptDAM7sPZWdiNooNM1b", "11_vpDaoRpqhQa_DSwpYb3ZbG9xQzhmEi",
+                      "1hFuQ_Ku6etXD0AqcXJGvJ0EHWtv5-a0_", "1ZO6nCuqoq_svJM6nwCEmV5o4qs45V4v_",
+                      "1IuJ3eyumCsNCMXfwDCQc-X0CoiN0mtxR", "1A6pPWlukIKm4t51qFVVNBF2C-ILeOW-g",
+                      "1LuuoRaJUXCBuknLwCG5RZ_OLdvWeH6vT", "18jiONAOXChea3ZQ-YZ88jdeOUaEWu2Ha",
+                      "1Yw3akBEgwaJQLm4HFKs25Jpw4mtNF8Ba", "12LgkIqzf5ekODHf5V2VerpFUHFVBtRDk",
+                      "11tAwIphvrrrNt-ta22edAQJIEjYBPrSF", "1n2yVmQ2764Ve1sDGkJRQdjps_r2W7o7W",
+                      "1TPoUxqFlRn_cS549o55mrGU7Pgm9FfSD", "1qjwISv5o4ziIXDicwaj2u9yj3516qy2X",
+                      "1uymvnmhMbNW-1Jnts2DZiEGxyUe7lpW2", "1yOlFTJFX49jTxoE7rwUPtzF0_O2hT981",
+                      "1prwl8vWDMLxHL9K5A7GS28xrYsKwUkoc", "1xfDbm9yBX5AJHkNVyoHgR20cU4rSylJl",
+                      "16zF8jOB_UEDzrGkN0S0gDfYzh0My42da", "1AdaH2pslrrpYuwgRPNHO7mKXoxm2-3i4",
+                      "1vnV-ZG8wV2rsqhchdL-smq40Umou2kOi", "1FgEQUJqGMji-ZgZC2iJRt_tSIAIXeIc9",
+                      "1PPtX91YC8-WjaVnYwjCXtH5hOj8VEC0T", "1446aFRdTnCenRGTZ8esk_lKDUxPX0vrr",
+                      "1k2Zi8lb0PZhSYnzYkTHeYWNplAk2H-H3", "19NU24P_peExuvFQOQ7TkpP2tvJiUPuPp",
+                      "1PHa2uLyxx4kWef6SRv3d3LBBwNiX6PmC", "1EXOrQt22liQhi7aKbiO7Si_VJ2jx9M35"]
         
 
             # Recorremos la lista de IDs de carpeta

@@ -54,20 +54,21 @@ def subir_a_drive(path):
     # Ordenar la lista de archivos
     files = list(sorted(files, key=lambda x: int(re.search(r'GRUPO(\d+)', x).group(1)) if re.search(r'GRUPO(\d+)', x) else float('inf')))
 
-    folder_ids = ["1PVrC64OpF4lLUTn7GB78NDk4tVHKt_9p","1BCUo3eRu4keGA1BxRaDQz7MpD-9Kybam","124JJ2lqUViTPccSSDmX5BaCnwSh0VTTL","1SaOktnsV36R_zUB-_i3LBTmZVhwcVsps",
-              "1cL7VHAHUwsRymHoRS35uqfkSAY443yG_","1uKxCkBWQUrhsYi3TPJvDsGgOpbjPG7iS","19mX4lM2KpJH4BtxOgux9C3OcmyfBbTPX",
-              "1JoxWGL90fxwvIUXOJNs7X6X4qJwt2xML","1cUSFdi2Iy1_8NG7MSqwLThkjJqhZG3Lh","1r8v7-7QuD7I7M31cPimxM6UvKRuHWIue",
-              "1MlXNuRpvZ-uZVToix0rA8_COvIV_sz41",
-              "190oc3i_n1SdB1WEBwDTjs7kKr-NGftou","1FZmN3LKUnCEDKJBeRAa8ass5DYjmQeKH","1Pe-P-RYDR8LaKZxdJmXAerhOe4JcJLVf",
-              "1QtWFQfRHUSn7F3cqJOkEJtIERl7Sfe-N","1oqRunCgEdN9EAmaUrwwXck18GjQL9hSW","1c_t2TkrO6iXo583ePsHDGNco7dNZ1-3v",
-              "1I6mmP-kx456tSofwOg5YG5HGE93EGams","1KtGdixpy-p8JEj45NfoEb8JtZ29xYpFS","1kQVlHOIBO-p1bmsk-rgxCVjG6P_V2TGr",
-              "1my1uG69TEZba7xSLbdaHphYyb9lOLFtg","1K921NLXIqY5oRyxxivqdL5D7CIFwPjm-","1CnfCG1zkXcHGjvS3GeHMb13_tzOooWn4",
-              "1Sm-YBHKldQ8epDdqDUVfGCo0lQ1v0sCp","1yO0qyfXWg9Y0lVXWGWB4lTIeYkIGtY9I","11z9lGtsWFWgotd05xK-0VHHd-kVYNAGV",
-              "1m92ZurDG-J4_aqPnCub88HsYnWtaEaUI","1-sKuqlI8uTdgJ20PsF0_OwPAF84ZxDPH",
-              "1OKlNUxasy5eXpmqLJIZCXK5PoOoMoGVC","1b4Ya2RjwkmymD0IhI81Lq36KhTh5aTXw","11KOYySNg6CCDNEA_8UawUuU45wplZbO5",
-              "1uWIq6hM3BNjtXOFQ2g4ifwufZGBDvHUf","1vSyw6zjJ3iMBNealEETEaOvmFKfo6OA0","15NVXVv5LFQ7vs-d-YmVptUBnx3ZxrxKx",
-              "1qB5f-R2XEyfiEwpJH_9U3gTQfJRUwf5N","1NmLZNNgnZA3jaXx4td0tITiPaMlvD_3m","1DvvWSgpLFmLnpH4Yv074gPqebKjyaBo3",
-              "1FRz1FK4ogxvzcFSQUjIiMaBPjUqH7lvA","1IdZdQ6Y8ExDs4XhdQmDJjnyp1JrnrRFW"]
+    folder_ids = ["1GpxN_g67E0Knv7ZLn7kPRbi2UmfUVvf2", "17wcfDgZ845YaHOxUVAXmWUmuczq488BF", 
+                  "1cGCdFA3Z3KhlWptDAM7sPZWdiNooNM1b", "11_vpDaoRpqhQa_DSwpYb3ZbG9xQzhmEi",
+                  "1hFuQ_Ku6etXD0AqcXJGvJ0EHWtv5-a0_", "1ZO6nCuqoq_svJM6nwCEmV5o4qs45V4v_",
+                  "1IuJ3eyumCsNCMXfwDCQc-X0CoiN0mtxR", "1A6pPWlukIKm4t51qFVVNBF2C-ILeOW-g",
+                  "1LuuoRaJUXCBuknLwCG5RZ_OLdvWeH6vT", "18jiONAOXChea3ZQ-YZ88jdeOUaEWu2Ha",
+                  "1Yw3akBEgwaJQLm4HFKs25Jpw4mtNF8Ba", "12LgkIqzf5ekODHf5V2VerpFUHFVBtRDk",
+                  "11tAwIphvrrrNt-ta22edAQJIEjYBPrSF", "1n2yVmQ2764Ve1sDGkJRQdjps_r2W7o7W",
+                  "1TPoUxqFlRn_cS549o55mrGU7Pgm9FfSD", "1qjwISv5o4ziIXDicwaj2u9yj3516qy2X",
+                  "1uymvnmhMbNW-1Jnts2DZiEGxyUe7lpW2", "1yOlFTJFX49jTxoE7rwUPtzF0_O2hT981",
+                  "1prwl8vWDMLxHL9K5A7GS28xrYsKwUkoc", "1xfDbm9yBX5AJHkNVyoHgR20cU4rSylJl",
+                  "16zF8jOB_UEDzrGkN0S0gDfYzh0My42da", "1AdaH2pslrrpYuwgRPNHO7mKXoxm2-3i4",
+                  "1vnV-ZG8wV2rsqhchdL-smq40Umou2kOi", "1FgEQUJqGMji-ZgZC2iJRt_tSIAIXeIc9",
+                  "1PPtX91YC8-WjaVnYwjCXtH5hOj8VEC0T", "1446aFRdTnCenRGTZ8esk_lKDUxPX0vrr",
+                  "1k2Zi8lb0PZhSYnzYkTHeYWNplAk2H-H3", "19NU24P_peExuvFQOQ7TkpP2tvJiUPuPp",
+                  "1PHa2uLyxx4kWef6SRv3d3LBBwNiX6PmC", "1EXOrQt22liQhi7aKbiO7Si_VJ2jx9M35"]
     
 
     for file, folder_id in zip(files, folder_ids):

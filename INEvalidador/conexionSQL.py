@@ -9,15 +9,13 @@ class baseSQL:
     def __init__(self, descargar: bool=True):
         if descargar:
             # Parámetros de conexión
-            usuario = 'mchinchilla'
-            contraseña = 'mchinchilla$2023'
-            host = '20.10.8.4'
-            puerto = '3307'
+            usuario = 'rrcastillo'
+            contraseña = 'Rcastillo2023'
+            host = '10.0.0.90'
+            puerto = '3308'
             # Crear la conexión de SQLAlchemy
-            engine_PR = create_engine(f'mysql+mysqlconnector://{usuario}:{contraseña}@{host}:{puerto}/ENCOVI_PR')
-            engine_SR = create_engine(f'mysql+mysqlconnector://{usuario}:{contraseña}@{host}:{puerto}/ENCOVI_SR')
-            self.__conexion_PR = engine_PR.connect()
-            self.__conexion_SR = engine_SR.connect()
+            engine = create_engine(f'mysql+mysqlconnector://{usuario}:{contraseña}@{host}:{puerto}/encabih')
+            self.__conexion = engine.connect()
             self.extraer_base()
         # Diccionario para almacenar los nombres de los archivos y las columnas
         self.base_df = {}   # Diccionario que asocia nombre de df con el df
@@ -57,52 +55,58 @@ class baseSQL:
         variables = condicion_a_variables(condicion)
 
         df_a_unir = list(set([self.base_col.get(var) for var in variables]))
-        tipo = df_a_unir[0][-2:] # devuelve SR o PR
+        # tipo = df_a_unir[0][-2:] # devuelve SR o PR
         
         df_a_unir = [self.base_df.get(archivo) for archivo in df_a_unir] 
 
-        df_base = self.base_df.get(f'level-1_{tipo}')
+        df_base = self.base_df.get(f'level-1')
         for df in df_a_unir:
             df = df.drop('INDEX', axis=1)
+            if "OCC" in df.columns.tolist():
+                df = df.drop('OCC', axis=1)
             df_base = pd.merge(df_base, df, on='LEVEL-1-ID', how='inner')
 
-        df_cases = self.base_df.get(f'cases_{tipo}')
+        df_cases = self.base_df.get(f'cases')
         df_base = pd.merge(df_base, df_cases, left_on='CASE-ID', right_on='ID', how='inner')
+        # Puede que el nombre de la variable DELETED cambie para la base de ENCABIH
         df_base = df_base.query('DELETED == 0')
 
-        # Si tipo es "PR", agregamos el dataframe "caratula_PR.feather"
-        if tipo == 'PR':
-            # Agregar dataframe con la caratula
-            caratula_pr_df = pd.read_feather('db/caratula_PR.feather')
-            caratula_pr_df = columnas_a_mayuscula(caratula_pr_df)
-            # Agregar dataframe con las fechas
-            tiempo_pr_df = pd.read_feather("db/tiempo_control_PR.feather")
-            tiempo_pr_df = columnas_a_mayuscula(tiempo_pr_df)
-            # Unir a base raiz
-            df_base = pd.merge(df_base, tiempo_pr_df, on="LEVEL-1-ID", how="inner")
-            df_base = df_base.drop("INDEX",axis=1)
-            df_base = pd.merge(df_base, caratula_pr_df, on='LEVEL-1-ID', how='inner')  # Unión por 'LEVEL-1-ID'
+        # Agregar dataframe con la caratula
+        caratula_df = pd.read_feather('db/caratula.feather')
+        caratula_df = columnas_a_mayuscula(caratula_df)
+        # Agregar dataframe con las fechas
+        visitas_df = pd.read_feather("db/visitas.feather")
+        visitas_df = columnas_a_mayuscula(visitas_df)
+        # Agregar dataframe con control_entrevista
+        control_df = pd.read_feather("db/control_entrevista.feather")
+        control_df = columnas_a_mayuscula(control_df)
+        # Unir a base raiz
+        df_base = pd.merge(df_base, visitas_df, on="LEVEL-1-ID", how="inner")
+        df_base = df_base.drop("INDEX", axis=1)
+        df_base = pd.merge(df_base, control_df, on="LEVEL-1-ID", how="inner")
+        df_base = df_base.drop("INDEX", axis=1)
+        df_base = pd.merge(df_base, caratula_df, on='LEVEL-1-ID', how='inner')  # Unión por 'LEVEL-1-ID'
         
         # Si tipo es "SR", agregamos el dataframe "estado_de_boleta_SR.feather"
-        if tipo == 'SR':
-            # Agregar dataframe estado boleta
-            estado_boleta_df = pd.read_feather('db/estado_de_boleta_SR.feather')
-            estado_boleta_df = columnas_a_mayuscula(estado_boleta_df)
-            # Agregar dataframe de control de tiempo
-            tiempo_sr_df = pd.read_feather("db/control_tiempo_SR.feather")
-            tiempo_sr_df = columnas_a_mayuscula(tiempo_sr_df)
-            # Unir a base raiz
-            df_base = pd.merge(df_base, tiempo_sr_df, on="LEVEL-1-ID", how="inner")
-            df_base = df_base.drop("INDEX",axis=1)
-            df_base = pd.merge(df_base, estado_boleta_df, on='LEVEL-1-ID', how='inner')  # Unión por 'LEVEL-1-ID'
+        # if tipo == 'SR':
+        #     # Agregar dataframe estado boleta
+        #     estado_boleta_df = pd.read_feather('db/estado_de_boleta_SR.feather')
+        #     estado_boleta_df = columnas_a_mayuscula(estado_boleta_df)
+        #     # Agregar dataframe de control de tiempo
+        #     tiempo_sr_df = pd.read_feather("db/control_tiempo_SR.feather")
+        #     tiempo_sr_df = columnas_a_mayuscula(tiempo_sr_df)
+        #     # Unir a base raiz
+        #     df_base = pd.merge(df_base, tiempo_sr_df, on="LEVEL-1-ID", how="inner")
+        #     df_base = df_base.drop("INDEX",axis=1)
+        #     df_base = pd.merge(df_base, estado_boleta_df, on='LEVEL-1-ID', how='inner')  # Unión por 'LEVEL-1-ID'
 
         # Validar solo las encuestas terminadas
-        if "PPA10" in df_base.columns and "ESTADO_PR" in df_base.columns:      
-            df_base = df_base[df_base["PPA10"] == 1]
-        if "ESTADO_SR" in df_base.columns:
-            df_base = df_base[df_base["ESTADO_SR"] == 1]
-        if "ESTADO_PR" in df_base.columns and "PPA10" not in df_base.columns:
-            df_base = df_base[df_base["ESTADO_PR"] == 1]
+        if "P01D08" in df_base.columns and "P01D07" in df_base.columns: 
+            df_base = df_base[df_base["P01D08"] == 1]
+        # if "ESTADO_SR" in df_base.columns:
+        #     df_base = df_base[df_base["ESTADO_SR"] == 1]
+        if "P01D07" in df_base.columns and "P01D08" not in df_base.columns: 
+            df_base = df_base[df_base["P01D07"] == 1] 
         # Se eliminó el filtro de estado_pr
 
         # Agregar código CP = 0 para las validaciones de hogares
@@ -110,24 +114,31 @@ class baseSQL:
             df_base["CP"] = 0
 
         # Agregar filtrado por fecha tomando el capítulo 1 como inicio de la encuesta
-        if "FECHA_INICIO_CAP_1" in df_base.columns:
-            df_base["FECHA_INICIO_CAP_1"] = pd.to_datetime(df_base["FECHA_INICIO_CAP_1"])
-            df_base = df_base[(df_base["FECHA_INICIO_CAP_1"] >= fecha_inicio) & (df_base["FECHA_INICIO_CAP_1"] <= fecha_final)]
-        if "FECHA_INICIO_CAPXIIIA" in df_base.columns:
-            df_base["FECHA_INICIO_CAPXIIIA"] = pd.to_datetime(df_base["FECHA_INICIO_CAPXIIIA"])
-            df_base = df_base[(df_base["FECHA_INICIO_CAPXIIIA"] >= fecha_inicio) & (df_base["FECHA_INICIO_CAPXIIIA"] <= fecha_final)]
+        # if "FECHA_INICIO_BOLETA" in df_base.columns: # CAMBIAR NOMBRE DE VARIABLE DE FECHA DE INICIO DEL CAPÍTULO
+        
+        # Agregar columna con la fecha ya calculada de las variables P01D04A/B/C
+        df_base["P01D04A"] = df_base["P01D04A"].astype("Int32").astype(str) # Día
+        df_base["P01D04B"] = df_base["P01D04B"].astype("Int32").astype(str) # Mes
+        df_base["P01D04C"] = df_base["P01D04C"].astype("Int32").astype(str) # Año
+        df_base["FECHA_INICIO_BOLETA"] = df_base["P01D04A"] + "-" + df_base["P01D04B"] + "-" + df_base["P01D04C"]
+        df_base["FECHA_INICIO_BOLETA"] = pd.to_datetime(df_base["FECHA_INICIO_BOLETA"], format="%d-%m-%Y")
+
+        df_base = df_base[(df_base["FECHA_INICIO_BOLETA"] >= fecha_inicio) & (df_base["FECHA_INICIO_BOLETA"] <= fecha_final)]
+        # if "FECHA_INICIO_CAPXIIIA" in df_base.columns:
+        #     df_base["FECHA_INICIO_CAPXIIIA"] = pd.to_datetime(df_base["FECHA_INICIO_CAPXIIIA"])
+        #     df_base = df_base[(df_base["FECHA_INICIO_CAPXIIIA"] >= fecha_inicio) & (df_base["FECHA_INICIO_CAPXIIIA"] <= fecha_final)]
 
         for columna in df_base.columns:
             if columna[-2:] == "_y":
                 df_base.drop(columns=columna, inplace=True)
             if columna[-2:] == "_x":
-                df_base.rename(columns={columna : columna[0:-2]}, inplace=True)
+                df_base = df_base.rename(columns={columna : columna[0:-2]})
 
         return df_base
 
 
-    def info_tablas(self, tipo: str='PR'):
-            conexion = self.__conexion_PR if tipo == 'PR' else self.__conexion_SR
+    def info_tablas(self):
+            conexion = self.__conexion 
 
             resultado = conexion.execute(text("SHOW TABLES"))
             tablas = [row[0] for row in resultado]
@@ -144,8 +155,8 @@ class baseSQL:
                 except Exception as e:
                     print(f'> Error "{e}" al obtener la forma de la tabla {tabla_nombre}')
 
-    def tablas_a_feather(self, tipo: str = 'PR', dir_salida: str = 'output'):
-        conexion = self.__conexion_PR if tipo == 'PR' else self.__conexion_SR
+    def tablas_a_feather(self, dir_salida: str = 'output'):
+        conexion = self.__conexion
 
         resultado = conexion.execute(text("SHOW TABLES"))
         tablas = [row[0] for row in resultado]
@@ -163,12 +174,12 @@ class baseSQL:
                     os.makedirs(dir_salida)
                 df.reset_index(inplace=True)
                 # Exportar el DataFrame en formato feather
-                tabla_nombre = f"{tabla_nombre}_{tipo}"
+                tabla_nombre = f"{tabla_nombre}"
                 df.to_feather(os.path.join(dir_salida, f'{tabla_nombre}.feather'))
 
             except Exception as e:
                 print(f'> Error al convertir la tabla {tabla_nombre} en un DataFrame y exportarlo: {str(e)}')
         
     def extraer_base(self):
-        self.tablas_a_feather('PR', 'db')
-        self.tablas_a_feather('SR', 'db')
+        self.tablas_a_feather('db')
+        # self.tablas_a_feather('SR', 'db')

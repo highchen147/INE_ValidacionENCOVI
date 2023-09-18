@@ -1,0 +1,362 @@
+﻿hola;SECCIÓN ;PREGUNTA ;CORRELATIVO;CÓDIGO DE ERROR;TÍTULO ;DEFINICIÓN DE LA VALIDACIÓN;CONDICIÓN O CRITERIO;VARIABLES CALCULADAS;LISTA DE VARIABLES PARA VISUALIZACIÓN;DETALLE DE VARIABLES INVOLUCRADAS ;ANALISTA
+1;B;1;1;01B0101;Cantidad de hogares incorrecto en la vivienda ;"La respuesta a la pregunta de que si en la vivienda viven grupos de personas que cocinan sus alimentos por separado es ""si"" y el total de hogares es igual a uno.";P01B01 = 1 & P01B02 <=1;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P01B01, P01B02;"P01B01 - Grupos de personas que cocinan por separado en una vivienda 
+P01B02 - Hogares en la vivienda ";DT
+1;D;1;1;01D0101;Cantidad diferente de hogares reportados en la vivienda ;La cantidad de hogares en la variable total de hogares de la sección de control de la entrevista es diferente a la variable de total de hogares en la sección hogares en la vivienda .;P01D01 <> P01B02;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P01D01, P01B02;"P01B02 - Total de hogares en la vivienda 
+P01D01 - Total de hogares ";DT
+2;B;8;1;02B0801;Cantidad de dormitorios mayor a la cantidad de cuartos ;La cantidad de dormitorios es mayor a la cantidad de cuartos reportados en la vivienda. ;P02B08 > P02B07;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P02B07,  P02B08;"P02B07 - Cuartos en la vivienda
+P02B08 - Dormitorios en la vivienda ";DT
+3;A;1;1;03A0101;Información de personas está incompleta en sección de características sociodemográficas;No se tiene información de sexo, edad, fecha de nacimiento, documento de identificación, parentesco, pueblos, idioma materno, otro idioma, discapacidad, situación conyugal, residencia de la madre o residencia del padre de la persona registrada. ;"(P03A01A <> """" | P03A01B <>"""") & (P03A02 es (vacío) | P03A03 es (vacío) | P03A04B es (vacío) | P03A04C es (vacío) | P03A04D es (vacío) | P03A04A es (vacío) | P03A05 es (vacío) | P03A06  es (vacío) | P03A08 es (vacío) | P03A09 es (vacío) | P03A110A es (vacío) | P03A11B es (vacío) | P03A11C es (vacío) | P03A11D es (vacío) | P03A11E es (vacío) | P03A11F es (vacío) | P03A12 es (vacío) | P03A13 es (vacío) | P03A14 es (vacío))";;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03A01A, P03A01B, P03A02, P03A03, P03A04B, P03A04C, P03A04D, P03A04A, P03A05, P03A06, P03A08, P03A09, P03A11A, P03A11B, P03A11C, P03A11D, P03A11E, P03A11F, P03A12, P03A13, P03A14  ;"P03A01A - Nombres
+P03A01B - Apellidos
+P03A02 - Sexo 
+P03A03 - Edad
+P03A04B - Día de nacimiento
+P03A04C - Mes de nacimiento
+P03A04D - Año de nacimiento
+P03A04A - Documento de identificación 
+P03A05 - Parentesco con el jefe o jefa de hogar 
+P03A06 - Pueblo de pertenencia 
+P03A08 - Idioma que aprendió a hablar
+P03A09 - Habla otro idioma
+P03A11A - Dificultad para ver 
+P03A11B - Dificultad para oir 
+P03A11C - Dificultad para caminar 
+P03A11D - Dificultad para recordar o concentrarse
+P03A11E - Dificultad para cuidado personal
+P03A11F - Dificultad para comunicarse  
+";DT
+3;A;6;1;03A0601;Se identifica como Maya y no se identifica a qué comunidad lingüística pertenece;La persona registrada es identificado como Maya pero no se especifica a que comunidad lingüística Maya pertenece. ;P03A06 = 1 & P03A07 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03A06, P03A07;"P03A06 - Pueblo de pertenencia
+P03A07 - Comunidad lingüística Maya
+";DT
+3;A;6;2;03A0602;No se identifica como Maya y tiene asignada una comunidad lingüística Maya;La persona registrada no es identificado como Maya y tiene respuesta en la variable de comunidad lingüística Maya. ;P03A06 está en (2, 3, 4, 5, 6) & P03A07 no es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03A06, P03A07;"P03A06 - Pueblo de pertenencia
+P03A07 - Comunidad lingüística Maya
+";DT
+3;A;9;1;03A0901;Indica que la persona aprendió a hablar otro idioma y no se registra cuál;Se registra que la persona aprendió a hablar otro idioma pero no se espcifica que otro idioma aprendió a hablar.;P03A09 = 1 & P03A10 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03A09, P03A10;"P03A09 - La persona aprendió a hablar otro idioma
+P03A10 - Otro idioma ";DT
+3;A;9;2;03A0902;Indica que la persona no aprendió a hablar otro idioma y se registra otro idioma ;Se regista que la persona no aprendió a hablar otro idioma y tiene información en la variable de otro idioma. ;P03A09 = 2 & P03A10 no es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03A09, P03A10;"P03A09 - La persona aprendió a hablar otro idioma
+P03A10 - Otro idioma ";DT
+3;B;1;1;03B0101;Información de personas de 7 años y más está incompleta en sección de características educativas ;No se tiene información de alfabetismo, asistencia escolar o nivel y grado educativo de la persona de 7 años y más registrada  ;P03A03 > 7  & P03B01 es (vacío) ;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03A03, P03B01;"P03A03 - Edad
+P03B01 - Alabetismo
+
+
+
+ ";DT
+3;B;1;2;03B0102;Pesonas menores de 7 años con registro en sección de características educativas;Personas menores de 7 años que tienen información en la sección de características educativas. ;P03A03 < 7 & (P03B01 no es (vacío) | P03B02 no es (vacío) | P03B03 no es (vacío) | P03B03A no es (vacío));;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03A03, P03B01, P03B02, P03B03, P03B03A;"P03A03 - Edad
+P03B01 - Alabetismo
+P03B02 - Asistencia escolar 
+P03B03 - Nivel educativo
+P03B03A - Grado educativo  
+
+
+ ";DT
+3;B;1;3;03B0103;Persona registrada no sabe leer ni escribir y se registra información educativa;Se registra que la persona no sabe leer y escribir y las variables de asistencia escolar, nivel y grado de estudio tienen información. ;P03B01 = 2 & (P03B02 no es (vacío) | P03B03 no es (vacío) | P03B03A no es (vacío));;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03B01, P03B02, P03B03, P03B03A;"P03B01 - Alfabetismo 
+P03B02 - Asistencia escolar 
+P03B03 - Nivel educativo
+P03B03A - Grado educativo  
+";DT
+3;B;1;4;03B0104;Persona sabe leer y escribir y no se registra información en características educativas ;Se registra que la persona sabe leer y escribir pero no se registra información en asistencia escolar, nivel y grado educativo. ;P03B01 = 1 & (P03B02 es (vacío) | P03B03 es (vacío) | P03B03A es (vacío));;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03B01, P03B02, P03B03, P03B03A;"P03B01 - Alfabetismo 
+P03B02 - Asistencia escolar 
+P03B03 - Nivel educativo
+P03B03A - Grado educativo  
+";DT
+3;C;1;1;03C0101;Personas mayores de 7 años sin información en sección de condición de actividad ;Personas de 7 años y más sin registro en información sobre condición de actividad. ;P03A03 > 7 & P03C01 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03A03, P03C01;"P03A03 - Edad
+P03C01 - Actividad principal de la persona registrada 
+";DT
+3;C;1;2;03C0102;Personas meneres de 7 años con información en sección de condición de actividad ;Personas menores de 7 años con registro en información sobre condición de actividad ;P03A03 < 7 & (P03C01 no es (vacío) | P03C02A no es (vacío) | P03C02B no es (vacío) | P03C02C no es (vacío) | P03C02D no es (vacío) | P03C02E no es (vacío) | P03C03 no es (vacío) | P03C04 no es (vacío) | P03C05 no es (vacío) | ;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03A03, P03C01, P03C02A, P03C02B, P03C02C, P03C02D, P03C02E, P03C03, P03C04, P03C05 ;"P03A03 - Edad
+P03C01 - Actividad principal de la persona registrada 
+P03C02A - Venta de productos 
+P03C02B - Elaboración de productos 
+P03C02C - Realización de servicios
+P03C02D - Cultivo de tierra y/o crianza de animales para la venta o consumo 
+P03C02E - Cuidado de personas 
+P03C04 - Razón de no trabajo
+ P03C05 - Categoría ocupacional
+";DT
+3;C;1;3;03C0103;La actividad principal de la persona fuer trabajar por un ingreso o producción de bienes y tiene información en variables de venta de productos y no trabajo ;Se indica que la actividad principal de la persona fue trabajar para obtener ingresos o para producir bienes para el consumo del hogar y tiene información en venta de productos o razón por la que no trabajó;P03C01 está en (1,2) & (P03C02A no es (vacío) | P03C02B no es (vacío) | P03C02C no es (vacío) | P03C02D no es (vacío) | P03C02E no es (vacío) | P03C04 no es (vacío));;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03C01, P03C02A, P03C02B, P03C02C, P03C02D, P03C02E, P03C03, P03C04;"P03C01 - Actividad principal de la persona registrada 
+P03C02A - Venta de productos 
+P03C02B - Elaboración de productos 
+P03C02C - Realización de servicios
+P03C02D - Cultivo de tierra y/o crianza de animales para la venta o consumo 
+P03C02E - Cuidado de personas 
+P03C04 - Razón de no trabajo
+";DT
+3;C;1;4;03C0104;La actividad principal de la persona fuer trabajar por un ingreso o producción de bienes y no tiene información en la variable de categoría ocupacional ;Se indica que la actividad principal de la persona fue trabajar para obtener ingresos o para producir bienes para el consumo del hogar y no tiene registro en la variable de categoría ocupacional. ;P03C01 está en (1,2) & P03C05 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03C01, P03C05;"P03C01 - Actividad principal de la persona registrada
+P03C05 - Categoría ocupacional";DT
+3;C;1;5;03C0105;La actividad principal de la persona no fue trabajar por un ingreso o producción de bienes y no tiene información en la variable de verificación de la actividad;Se indica que la actividad principal de la persona fue buscar trabajo, estudiar, quehaceres del hogar, jubilado o pensionado, rentista, enfermo o convaleciente, discapacidad, cuidado de niños, cuidado de adultos mayores, cuidado de enfermo(a), estar en cuarentena u otro y no tiene información en la verificación de la actividad.;P03C01 está en (3,4,5,6,7,8,9,10,11,12,13,98) & (P03C02A es (vacío) | P03C02B es (vacío) | P03C02C es (vacío) | P03C02D es (vacío) | P03C02E es (vacío));;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03C01, P03C02A,  P03C02B, P03C02C, P03C02D, P03C02E;"P03C01 - Actividad principal de la persona registrada 
+P03C02A - Venta de productos 
+P03C02B - Elaboración de productos 
+P03C02C - Realización de servicios
+P03C02D - Cultivo de tierra y/o crianza de animales para la venta o consumo 
+P03C02E - Cuidado de personas 
+
+";DT
+3;C;2;1;03C0201;Respuesta afirmativa en la verificación de condición de actividad y hay información en variable de no trabajo ;"La respuesta en la variable de verificación de condición de trabajo es ""si"" y tiene infomación en la variable de motivo por el que la persona registrada no trabajó. ";P03C02 = 1 & P03C03 no es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03C01, P03C02A,  P03C02, P03C03;"P03C02 - Verificación de actividad 
+P03C03 - Razón de no trabajo ";DT
+3;C;2;2;03C0202;Respuesta negativa en la verificación de condición de actividad sin información en motivo de no trabajo ;"La respuesta en la variable de verificación de condición de trabajo es ""no "" y no tiene infomación en la variable de motivo por el que la persona registrada no trabajó. ";P03C02 = 2 & P03C03 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03C01, P03C02A,  P03C02, P03C03;"P03C02 - Verificación de actividad 
+P03C03 - Razón de no trabajo ";DT
+3;C;3;1;03C0301;Indica que no trabajó por motivos justificables en su trabajo y no tiene información en categoría ocupacional ;Se indica que no trabajó por vacaciones, enfermedad o accidente, permiso o licencia de trabajo, huelga o por suspensión laboral y no se registra categoría ocupacional de la persona ;P03C03 esta en (1,2,3,4,5) & P03C05 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03C03, P03C05;"P03C03 - Razón de no trabajo 
+P03C05 - Categoría ocupacional";DT
+3;C;3;2;03C0302;Indica que no trabajó por otros motivos ajenos y tiene información en categoría ocupacional ;Se indica que no trabajó por finalización de temporada de trabajo, factores climaticos, falta de transporte, falta de materia prima, asuntos personales, cuidado infantil, cuidado de adulto mayor, quehaceres del hora o estudiar y se registra información en categoría ocupacional.;P03C03 esta en (6,7,8,9,10,11,12,13,14) & P03C05 no es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03C03, P03C05;"P03C03 - Razón de no trabajo 
+P03C05 - Categoría ocupacional";DT
+3;D;1;1;03D0101;No se identifica a las posibles mujeres elegibles;No se le asigna identificación (1) a todas las mujeres de 15 años y más del hogar ;P03A02 = 2 & P03A03 >=15 & (P03D01 = 0 | P03D01 es (vacío));;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03A02, P03A03, P03D01;"P03A02 - Sexo 
+P03A03 -  Edad
+P03D01 - Identificación de mujeres de 15 años y más en la vivienda ";DT
+3;D;1;2;03D0102;Se identifica a mujeres inelegibles ;Se le asigna identificación (1) a mujeres menores de 15 años registradas en el hogar.;P03A02 = 2 & P03A03 <15 & P03D01 = 1;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03A02, P03A03, P03D01;"P03A02 - Sexo 
+P03A03 -  Edad
+P03D01 - Identificación de mujeres de 15 años y más en la vivienda ";DT
+3;D;1;3;03D0103;Se identifica a hombres como posibles mujeres elegidas ;Se le asigna identificación (1) a hombres del hogar ;P03A02 = 1 & P03D01 = 1;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03A02, P03D01;"P03A02 - Sexo 
+P03D01 - Identificación de mujeres de 15 años y más en la vivienda ";DT
+4;A;1;1;04A0101;Se elige a una mujer pero no hay información del estado conyugal  ;Se tiene registrado que se elige a una mujer del hogar y que la encuesta fue finalizada pero no se registra información del estado conyugal de la mujer. ;CP mujer elegida no es (vacío) & P01D08  está en (1,2) & P04A01 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P03A02, P03D01;"P03A02 - Sexo 
+P03D01 - Identificación de mujeres de 15 años y más en la vivienda ";DT
+4;A;1;2;04A0102;Mujer indica que está soltera y no tiene información en verificación para mujeres solteras ;La mujer entrevistada responde que es soltera y no especifica el motivo. ;P04A01 = 1 & P04A02 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A02;"P04A01 - Estado conyugal
+P04A02 - Condición de soltera";DT
+4;A;1;3;04A0103;Mujer indica que está unida, casada, separada, divorciada o viuda y tiene información en condición de soltera;La mujer entrevistada responde que está unida, casada, separada, divorciada o viuda y se le registra información en apartado para mujeres solteras. ;P04A01 esta en (2,3,4,5,6,7) & P04A02 no es (vacío) | P04A03 no es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A02, P04A03;"P04A01 - Estado conyugal
+P04A02 - Condición de soltera
+P04A03 - Relación de convivencia con expareja";DT
+4;A;1;4;04A0104;Mujer indica que está unida o casada y no se registra información de cohabitación en pareja ;La mujer entrevistada responde que está unida o casada y no se registra información en variable de cohabitación en pareja.;P04A01 esta en (2,3) &P04A04 es (vacío) ;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A04;"P04A01 - Estado conyugal
+P04A04 - Cohabitación con pareja actual de casadas o unidas";DT
+4;A;1;5;04A0105;Mujer indica que está soltera, separada, divorciada o viuda y tiene información en conhabitación en pareja ;La mujer entrevistada responde que está soltera, separada, divorciada o viuda y se registra información en cohabitación con pareja actual ;P04A01 esta en (1,4,5,6,7) & P04A04  no es (vacío) ;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A04;"P04A01 - Estado conyugal
+P04A04 - Cohabitación con pareja actual de casadas o unidas";DT
+4;A;1;6;04A0106;Mujer indica que está separada, divorciada o viuda y no se registra información de relación actual;La mujer entrevistada responde que está separada, divorciada o viuda y no se registra información en confirmación de relación actual. ;P04A01 esta en (4,5,6,7) & P04A06  es (vacío) ;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A06;"P04A01 - Estado conyugal
+P04A06 - Relación de pareja actual de viudas, separadas y/o divorciadas ";DT
+4;A;1;7;04A0107;Mujer indica que está soltera, casada o unida y tiene registro en información para mujeres separadas, divorciadas o viudas;La mujer entrevistada responde que está soltera, casada o unida y se registra información en variable de relación de pareja para mujeres separadas, divorciadas o viudas.;P04A01 esta en (1,2,3) & P04A06 no es (vacío) ;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A06;"P04A01 - Estado conyugal
+P04A06 - Relación de pareja actual de viudas, separadas y/o divorciadas ";DT
+4;A;2;1;04A0201;Mujer indica que está soltea pero tuvo relación anterior y no hay registro de relación con expareja;La mujer entrevistada responde que está soltera pero tuvo una relación anterior y no se registra información acerca de el estado conyugal con su expareja. ;P04A01 = 1 & P04A02 = 1 & P04A03 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A02, P04A03;"P04A01 - Estado conyugal
+P04A02 - Condición de soltera
+P04A03 - Relación de convivencia con expareja";DT
+4;A;2;2;04A0202;Mujer indica que está soltera y nunca ha tenido novio o tiene novio y hay registro de expareja ;La mujer entrevistada responde que está soltera pero tiene novio o nunca ha tenido novio y se registra información de expareja. ;P04A01 = 1 & P04A02 está en (2,3,4)  & P04A03 no es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A02, P04A03;"P04A01 - Estado conyugal
+P04A02 - Condición de soltera
+P04A03 - Relación de convivencia con expareja";DT
+4;A;2;3;04A0203;Mujer indica que está soltera y tiene novio o pareja sin vivir juntos pero la verificación en estado conyugal difiere;"La mujer entrevistada respone que está soltera pero tiene novio o pareja sin vivir juntos y el registro de verificación del estado conyugal no coincide con la opción ""con novio sin cohabitación"".";P04A01 = 1 & P04A02 = 2 & P04A08 <> 2;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A02, P04A08;"P04A01 - Estado conyugal
+P04A02 - Condición de soltera
+P04A08 - Resultado de la verificación del estado conyugal";DT
+4;A;2;4;04A0204;Mujer indica que está soltera y tiene novio o pareja y viven juntos pero la verificación en estado conyugal difiere;"La mujer entrevistada respone que está soltera pero tiene novio o pareja y viven juntos pero el registro de verificación del estado conyugal no coincide con la opción ""con pareja recidente"". ";P04A01 = 1 & P04A02 = 3 & P04A08 <> 4;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A02, P04A08;"P04A01 - Estado conyugal
+P04A02 - Condición de soltera
+P04A08 - Resultado de la verificación del estado conyugal";DT
+4;A;2;5;04A0205;Mujer indica que está soltera y nunca ha tenido novio y la verificación de estado conyugal difiere ;La mujer entrevistada responde que está soltera y nunca ha tenido novio pero la verificación del estado conyugal no coincide con nunca ha tenido novio.;P04A01 = 1 & P04A02 = 4 & P04A08 <> 1;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A02, P04A08;"P04A01 - Estado conyugal
+P04A02 - Condición de soltera
+P04A08 - Resultado de la verificación del estado conyugal";DT
+4;A;3;1;04A0301;Mujer soltera indica que vivió con expareja y la verificación conyugal difiere ;La mujer entrevistada responde que está soltera pero vivió con expareja y la verificación conyugal no coincide con separada o divorciada ;P04A02 = 1 & P04A03 = 1 & P04A08 <> 6;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A02, P04A03, P04A08;"P04A02 - Condición de soltera
+P04A03 - Relación de convivencia con expareja 
+P04A08 - Resultado de la verificación del estado conyugal";DT
+4;A;3;2;04A0302;Mujer soltera indica que no vivió con expareja y la verificación de estado conyugal difiere;La mujer entrevistada responde que está soltera pero tuvo una relación anteriormente y que no vivió con expareja pero la verificación del estado conyugal no coincide con expareja sin cohabitación. ;P04A02 = 1 & P04A03 = 2 & P04A08 <> 3;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A02, P04A03, P04A08;"P04A02 - Condición de soltera
+P04A03 - Relación de convivencia con expareja 
+P04A08 - Resultado de la verificación del estado conyugal";DT
+4;A;4;1;04A0401;Mujer casada o unida indica que cohabita con su pareja y tiene información en razón de no cohabitación ;La mujer entrevistada responde que está unida o casada y que cohabita con su pareja pero tiene información registrada en la variable que registra la razón por la que no cohabita con su pareja. ;P04A01 - está en (2,3) & P04A04 = 1 & P04A08 <> 4;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A04, P04A08;"P04A01 - Estado conyugal
+P04A04 - Cohabitación con pareja actual de casadas o unidas
+P04A08 - Resultado de la verificación del estado conyugal";DT
+4;A;4;2;04A0402;Mujer casada o unida indica que no cohabita con su pareja y no tiene registro de la razón de no cohabitación ;La mujer entrevistada responde que está unida o casada pero no cohabita con su pareja actual y no se registra la razón por la que no cohabita con su pareja. ;P04A01 - está en (2,3) & P04A04 = 2 & P04A05 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A04, P04A05;"P04A01 - Estado conyugal
+P04A04 - Cohabitación con pareja actual de casadas o unidas
+P04A05 - Razón de no cohabitación con pareja actual de casadas o unidas";DT
+4;A;5;1;04A0501;Mujer casada o unida indica que no cohabita con su pareja porque trabaja en otro país, trabaja en otro lugar del país, él tiene otra pareja, él se fue por enojo u otras razones y la verificación conyugal difiere ;La mujer entrevistada responde que está unida o casada pero no cohabita con su pareja porque trabaja en otro país, trabaja en otro lugar del país, él tiene otra pareja, él se fue porque están enojados o peleados u otras razónes pero la verificación del estado conyugal difiere a con pareja temporal ausente.;P04A01 - está en (2,3) & P04A04 = 2 & P04A05 está en (1,2,3,4,5) & P04A08 <> 5;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A04, P04A05, P04A08;"P04A01 - Estado conyugal
+P04A04 - Cohabitación con pareja actual de casadas o unidas
+P04A05 - Razón de no cohabitación con pareja actual de casadas o unidas
+P04A08 - Resultado de la verificación del estado conyugal";DT
+4;A;5;2;04A0502;Mujer casada o unida indica que no cohabita con su pareja porque están separados definitivamente y verificación de estado conyugal difiere;La mujer entrevistada responde que está unida o casada pero que no cohabita con su pareja porque están separados definitivamente y en la verificación de estado conyugal no se indica que está separada o divorciada. ;P04A01 - está en (2,3) & P04A04 = 2 & P04A05 = 6 & P04A08 <> 6;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A04, P04A05, P04A08;"P04A01 - Estado conyugal
+P04A04 - Cohabitación con pareja actual de casadas o unidas
+P04A05 - Razón de no cohabitación con pareja actual de casadas o unidas
+P04A08 - Resultado de la verificación del estado conyugal";DT
+4;A;6;1;04A0601;Mujer separada, divorciada o viuda indica que tiene una relación actual y no se indica si cohabita o no con ella;La mujer entrevistada responde que está separada, divorciada o viuda y no se registra información en variable que consulta si cohabita o no con la pareja actual. ;P04A01 está en (4,5,6,7) & P04A06 = 1 & P04A07 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A06, P04A07;"P04A01 - Estado conyugal
+P04A06 - Relación de pareja actual de viudas, separadas y/o divorciadas
+P04A07 - Cohabitación con pareja actual de viudas, separadas y/o divorciadas";DT
+4;A;6;2;04A0602;Mujer separada, divorciada o viuda indica que no tiene una relación actual y se registra información en cohabitación con pareja actual;La mujer entrevistada responde que está separada, divociada o viuda y que no tiene una relación actual pero se registra información en variable de coahabitación con pareja actual. ;P04A01 está en (4,5,6,7) & P04A06 = 2 & P04A07 no es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A06, P04A07;"P04A01 - Estado conyugal
+P04A06 - Relación de pareja actual de viudas, separadas y/o divorciadas
+P04A07 - Cohabitación con pareja actual de viudas, separadas y/o divorciadas";DT
+4;A;6;3;04A0603;Mujer separada, divorciada o viuda indica que no tiene una relación actual y el estado conyugal difiere ;La mujer entrevistada responde que está separada, divorciada o viuda, que no tiene una relación actual y en la verificación del estado conyugal no se registra que es mujer separada, divorciada o viuda. ;P04A01 está en (4,5,6,7) & P04A06 = 2 & P04A08 no está en (6,7);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A06, P04A07, P04A08;"P04A01 - Estado conyugal
+P04A06 - Relación de pareja actual de viudas, separadas y/o divorciadas
+P04A07 - Cohabitación con pareja actual de viudas, separadas y/o divorciadas
+P04A08 - Resultado de la verificación del estado conyugal";DT
+4;A;7;1;04A0701;Mujer separada, divorciada o viuda indica que tiene una relación actual y que cohabita con su pareja pero la verificación del estado conyugal difiere;La mujer entrevistada responde que está separada, divorciada o viuda y que cohabita con su pareja actual pero en la verificación del estado conyugal no se registra que es casada o unida con pareja residente. ;P04A01 está en (4,5,6,7) & P04A06 = 1 & P04A07 = 1 & P04A08 <> 4;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A06, P04A07, P04A08;"P04A01 - Estado conyugal
+P04A06 - Relación de pareja actual de viudas, separadas y/o divorciadas
+P04A07 - Cohabitación con pareja actual de viudas, separadas y/o divorciadas
+P04A08 - Resultado de la verificación del estado conyugal";DT
+4;A;7;2;04A0702;Mujer separada, divorciada o viuda indica que tiene una relación actual pero no cohabita con su pareja y la verificación del estado conyugal difiere;La mujer entrevistada responde que está separada, divorciada o viuda, tiene una relación actual pero no cohabita con su pareja y en la verificación del estado conyugal no se registra que tiene novio, sin cohabitación.;P04A01 está en (4,5,6,7) & P04A06 = 1 & P04A07 = 2 & P04A08 <> 2;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A06, P04A07, P04A08;"P04A01 - Estado conyugal
+P04A06 - Relación de pareja actual de viudas, separadas y/o divorciadas
+P04A07 - Cohabitación con pareja actual de viudas, separadas y/o divorciadas
+P04A08 - Resultado de la verificación del estado conyugal";DT
+4;A;8;1;04A0801;Se registra estado conyugal de la mujer elegida pero no se registra la confirmación del estado conyugal ;Se registra el estado conyugal de la mujer elegida pero no se registra información en la variable de confirmación del estado conyugal. ;P04A01 no es (vacío) & P04A08 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A01, P04A08;"P04A01 - Estado conyugal
+P04A08 - Resultado de la verificación del estado conyugal";DT
+4;B;1;1;04B0101;Mujer elegida indica que  trabja por ingreso, salario o ganancia y no se registra información en rango de ingresos;La mujer entrevistada indica que trabaja por un ingreso, salario o ganancia y no se registra rango de ingresos.;P04B01 = 1 & P04B02 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04B01, P04B02;"P04B01 - Situación laboral de mujer elegida
+P04B02 - Ingresos por trabajo de mujer elegida";DT
+4;B;1;2;04B0102;Mujer elegida indica que no trabaja por ingreso, salario o ganancia y tiene información en rango salarial y periodicidad;La mujer entrevistada indica que no trabaja por un ingreso, salario o ganancia y tiene información registrada en rango salarial y periodicidad con la que recibe ese ingreso o salario. ;P04B01 = 2 & P04B02 no es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04B01, P04B02;"P04B01 - Situación laboral de mujer elegida
+P04B02 - Ingresos por trabajo de mujer elegida";DT
+4;B;2;1;04B0201;Mujer elegida indica que trabaja, se registra rango salarial pero no se registra periodicidad;La mujer entrevistada indica qu trabaja por un ingreso, salario o ganancia, tiene registro en la variable de rango salarial pero no tiene registrado cada cuando recibe ese ingreso, salario o ganancia. ;P04B01 = 1 & P04B02 está en (1,2,3,4,5,6,7) & P04B03 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04B01, P04B02, P04B03;"P04B01 - Situación laboral de mujer elegida
+P04B02 - Ingresos por trabajo de mujer elegida
+P04B03 - Periodicidad de ingresos por trabajo de mujer elegida";DT
+4;B;2;2;04B0202;Mujer elegida indica que trabaja pero no sabe o prefiere no responder el rango salarial y tiene información en periodicidad de obtención de ingresos ;La mujer entrevistada indica que trabaja por un ingreso, salario o ganancia y no quiere responder o no sabe acerca de su rango salarial pero tiene información registrada en periodicidad con la que recibe esos ingresos o salario. ;P04B01 = 1 & P04B02 está en (8,9) & P04B03  no es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04B01, P04B02, P04B03;"P04B01 - Situación laboral de mujer elegida
+P04B02 - Ingresos por trabajo de mujer elegida
+P04B03 - Periodicidad de ingresos por trabajo de mujer elegida";DT
+4;B;4;1;04B0401;Mujer que nunca ha tenido novio con registro en ingresos y ocupación de la pareja ;Se registró que la mujer entrevistada nunca ha tenido novio y hay información registrada en la variable de ingresos y ocupación de pareja o expareja. ;P04A08 = 1 & P04B04 no es (vacío) | P04B05 no es (vacío) | P04B06 no es (vacío) | P04B07 no es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A08, P04B04, P04B05, P04B06, P04B07 ;"P04A08 - Resultado de la verificación del estado conyugal
+P04B04 - Situación laboral de pareja o expareja de mujer elegida
+P04B05 -  Ocupación laboral de pareja o expareja de mujer elegida
+P04B06 -  Ingresos por trabajo de pareja o expareja de mujer elegida 
+P04B07 -  Periodicidad de ingresos por trabajo de pareja o expareja de mujer elegida ";DT
+4;B;4;2;04B0402;Mujer en una relación, casada, unida, separada, divorciada o viuda sin información de la ocupación de su pareja o expareja;Se registró que la mujer entrevistada está en una relación, casada, unida, separada, divorciada o viuda y no se registra información de la ocupación de la pareja o expareja. ;P04A08 está en (2,3,4,5,6,7) & P04B04 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A08, P04B04;"P04A08 - Resultado de la verificación del estado conyugal 
+P04B04 - Situación laboral de pareja o expareja de mujer elegida";DT
+4;B;6;1;04B0601;"Mujer en una relación, casada, unida, separada, divorciada o viuda sin información de ingresos por trabajo de pareja o expareja 
+";Se registró que la mujer entrevistada está en una relación, casada, unida, separada, divorciada o viuda y no se registra información de los ingresos por trabajo de pareja o expareja. ;P04A08 está en (2,3,4,5,6,7) & P04B06 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A08, P04B06 ;"P04A08 - Resultado de la verificación del estado conyugal 
+P04B06 - Ingresos por trabajo de pareja o expareja de mujer elegida";DT
+4;B;6;2;04B0602;Mujer en una relación, casada, unida, separada, divorciada o viuda indica rango salarial de su pareja o expareja pero no se registra periodicidad;Se registró que la mujer entrevistada está en una relación, casada, unida, separada, divorciada o viuda, informa sobre el rango salarial de su pareja o expareja pero no se tiene información de la periodicidad de esos ingresos. ;P04A08 está en (2,3,4,5,6,7) & P04B06 está en (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04A08, P04B06 ;"P04A08 - Resultado de la verificación del estado conyugal 
+P04B06 - Ingresos por trabajo de pareja o expareja de mujer elegida";DT
+4;C;1;1;04C0101;Puede continuar la entrevista, pero contestó el por qué no puede seguir la entrevista;Se respondió que si en la pregunta si puede continuar la entrevista pero exsite respuesta en la variable de pregunta por qué no puede continuar la entrevista;P04C01 = 1 & P04C02 no es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04C01, P04C02 ;"P04C01 - Sólo para confirmar, ¿podemos continuar con la entrevista?
+P04C02 - ¿Por qué?";AR
+4;C;1;2;04C0102;No puede continuar la entrevista, pero no contestó el por qué;Se respondió que no en la pregunta si puede continuar la entrevista pero no respondió el por qué no puede continuar;P04C01 = 2 & P04C02 es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM,P04C01, P04C02;"P04C01 - Sólo para confirmar, ¿podemos continuar con la entrevista?
+P04C02 - ¿Por qué?";AR
+4;C;1;3;04C0103;No puede continuar la entrevista, pero hay respuestas en las preguntas si hay alguien en la vivienda en este momento;Si respondió que no puede seguir con la entrevista, no debe haber ninguna respuesta de las posibles en la pregunta 3;P04C01 = 2 & (P04C03A no es (vacío) | P04C03B no es (vacío) | P04C03C no es (vacío) | P04C03D no es (vacío) | P04C03E no es (vacío) | P04C03F no es (vacío) | P04C03G no es (vacío));;"P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM,
+P04C01, P04C03A
+P04C03B,
+P04C03C,
+P04C03D,
+P04C03E,
+P04C03F,
+P04C03G";"P04C01 - Sólo para confirmar, ¿podemos continuar con la entrevista?
+P04C03A ¿En este momento, en su vivienda está su esposo o pareja?
+P04C03B ¿En este momento, en su vivienda están sus hijas e hijos?
+P04C03C ¿En este momento, en su vivienda está su padre o madre?
+P04C03D ¿En este momento, en su vivienda está su suegra o suegro?
+P04C03E ¿En este momento, en su vivienda están otros familiares?
+P04C03F ¿En este momento, en su vivienda están otras personas (vecinas, amigas, trabajadoras, etc.)?
+P04C03G ¿En este momento, en su vivienda está sola?";AR
+4;C;1;4;04C0104;No puede continuar la entrevista, pero hay respuestas en las preguntas si pueden hablar en otro lugar o en otro momento;Si respondió que no puede seguir con la entrevista, no debe haber ninguna respuesta de las posibles en la pregunta 4;P04C01 = 2 & (P04C04A no es (vacío) | P04C04B no es (vacío) | P04C04B1 no es (vacío) | P04C04C no es (vacío) | P04C04C1 no es (vacío) | P04C04C2 no es (vacío) | P04C04D no es (vacío) | P04C04D1 no es (vacío) | P04C04D2 no es (vacío) | P04C04D3 no es (vacío) | P04C04E no es (vacío));;"P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, 
+P04C01, 
+P04C04A,
+P04C04B,
+P04C04B1,
+P04C04C,
+P04C04C1,
+P04C04C2,
+P04C04D,
+P04C04D1,
+P04C04D2,
+P04C04D3,
+P04C04E";"
+P04C01 - Sólo para confirmar, ¿podemos continuar con la entrevista?
+P04C04A Podemos hablar aquí en su vivienda, en un lugar privado (alejado, solo) sin que nos escuchen
+P04C04B Prefiere que vayamos a otro sitio ahora?
+P04C04B1 Digame el lugar
+P04C04C Que sea aquí, pero en otro momento?
+P04C04C1 Día
+P04C04C2 Hora
+P04C04D Que sea en otro lugar y en otro momento?
+P04C04D1 Lugar
+P04C04D2 Día
+P04C04D3 Hora
+P04C04E Otra opción propuesta por la entrevistada Especifique:";AR
+4;C;4;1;04C0401;Mujer registro que prefiere ir a otro lugar para continuar la entrevista pero no a donde prefiere ir;Respondió que si prefiere ir a otro sitio para continuar con la entrevista, pero no respondió a que lugar prefiere ir;P04C04B = 1 & P04C04B1 es (vacío);;"P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04C04B,
+P04C04B1 ";"P04C04B Prefiere que vayamos a otro sitio ahora?
+P04C04B1 Digame el lugar";AR
+4;C;4;2;04C0402;Mujer registro que prefiere que sea en otro momento la entrevista pero no indica cuando;Respondió que si prefiere que sea en otro momento la entrevista, pero no respondió a el dia ni la hora en la que prefiere que sea;P04C04C = 1 & (P04C04C1 es (vacío) | P04C04C2 es (vacío));;"P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04C04C,
+P04C04C1,
+P04C04C2";"P04C04C Que sea aquí, pero en otro momento?
+P04C04C1 Día
+P04C04C2 Hora";AR
+4;C;4;3;04C0403;Mujer registro que prefiere que sea en otro lugar y otro momento la entrevista pero no indica cuando ni dond;Respondió que si prefiere que sea en otro momento y otro lugar la entrevista, pero no respondió a el dia ni la hora en la que prefiere que sea ni cuando;P04C04D = 1 & (P04C04D1 es (vacío) | P04C04D2 es (vacío) | P04C04D3 es (vacío));;"P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P04C04D,
+P04C04D1,
+P04C04D2,
+P04C04D3";"P04C04D Que sea en otro lugar y en otro momento?
+P04C04D1 Lugar
+P04C04D2 Día
+P04C04D3 Hora";AR
+5;A;1;1;05A0101;Mujer que no asistió alguna vez a un establecimiento educativo y tiene respuestas en toda la sección A;Respondió que no estudió alguna vez a un establecimiento educativo pero hay respuesta en las demas variables del capitulo 5 seccion A;P05A01 = 2 & (P05A02 no es (vacío) | P05A03 no es (vacío) | P05A03B no es (vacío) | P05A04 no es (vacío) | P05A05 no es (vacío) | P05A05A no es (vacío));;"P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P05A01,
+P05A02,
+P05A03,
+P05A03B,
+P05A04,
+P05A05,
+P05A05A";"P05A01 ¿Usted asiste o asistió alguna vez a un establecimiento educativo?
+P05A02 Durante el ciclo escolar 2023, ¿asiste a un establecimiento educativo a estudiar?
+P05A03 ¿En qué nivel se inscribió en el presente año escolar?
+P05A03B ¿En qúe grado se inscribió en el presente año escolar?
+P05A04 El establecimiento educativo al que asiste en este año?
+P05A05 El sistema en el que toma clases, ¿es...
+P05A05A Otro Especifique";AR
+5;A;1;2;05A0102;Mujer que asistió alguna vez a un establecimiento educativo;Respondió que estudió alguna vez en un establecimiento educativo pero no hay respuesta en las demas variables del capitulo 5 seccion A;P05A01 = 1 & (P05A02 es (vacío) | P05A03 es (vacío) | P05A03B es (vacío) | P05A04 es (vacío) | P05A05 es (vacío) | P05A05A es (vacío));;"P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P05A01,
+P05A02,
+P05A03,
+P05A03B,
+P05A04,
+P05A05,
+P05A05A";"P05A01 ¿Usted asiste o asistió alguna vez a un establecimiento educativo?
+P05A02 Durante el ciclo escolar 2023, ¿asiste a un establecimiento educativo a estudiar?
+P05A03 ¿En qué nivel se inscribió en el presente año escolar?
+P05A03B ¿En qúe grado se inscribió en el presente año escolar?
+P05A04 El establecimiento educativo al que asiste en este año?
+P05A05 El sistema en el que toma clases, ¿es...
+P05A05A Otro Especifique";AR
+5;A;2;1;05A0201;Indica que no asiste actualmente a un establecimiento educativo y tiene información completa en la sección de características específicas de educación ;La mujer entrevistada resonde que durante el ciclo 2023 no asiste a un establecimiento educativo y las variables de nivel, grado, tipo de establecimiento y sistema de aprendizaje están llenas.;P05A02 = 2 & (P05A03 no es (vacío) | P05A03B no es (vacío) | P05A04 no es (vacío) |  P05A05 no es (vacío) | P05A05A no es (vacío));;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P05A02, P05A03, P05A03B, P05A04, P05A05, P05A05A;"P05A02 - Asistencia escolar de la mujer elegida durante 2023
+P05A03 - Año de escolaridad 2023 de la mujer elegida
+P05A03B - Grado de escolaridad 2023 de la mujer elegida
+P05A04 - Tipo de establecimiento educativo 
+P05A05 - Modalidad de clases 
+P05A05A - Otra modalidad de clases";DT
+5;A;2;2;05A0202;Indica que asiste actualmente a un establecimiento educativo y no se registra la información completa en la sección de características específicas de educación ;La mujer entrevistada resonde que durante el ciclo 2023 si asiste a un establecimiento educativo y las variables de nivel, grado, tipo de establecimiento y sistema de aprendizaje no tienen información.;P05A02 = 2 & (P05A03 es (vacío) | P05A03B es (vacío) | P05A04 es (vacío) |  P05A05 es (vacío) | P05A05A es (vacío));;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P05A02, P05A03, P05A03B, P05A04, P05A05, P05A05A;"P05A02 - Asistencia escolar de la mujer elegida durante 2023
+P05A03 - Año de escolaridad 2023 de la mujer elegida
+P05A03B - Grado de escolaridad 2023 de la mujer elegida
+P05A04 - Tipo de establecimiento educativo 
+P05A05 - Modalidad de clases 
+P05A05A - Otra modalidad de clases";DT
+5;A;3;1;05A0301;Se registra nivel pero no se especifica grado de estudios ;Se registra el nivel educativo de la mujer elegida pero no se registra grado de estudios ;P05A03 no es (vacío) & P05A03B es (vacío) ;;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P05A03, P05A03B ;"
+P05A03 - Año de escolaridad 2023 de la mujer elegida
+P05A03B - Grado de escolaridad 2023 de la mujer elegida";DT
+5;A;3;2;05A0302; Se registra que el nivel educativo es primaria pero en el grado no está en el rango de 1 a 6;Se registra que la mujer está cursando el nivel primaria de estudios pero el grado que se registra no está entre primero y sexto;P05A03 = 1 & P05A03B no está en (1,2,3,4,5,6);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P05A03, P05A03B ;"
+P05A03 - Año de escolaridad 2023 de la mujer elegida
+P05A03B - Grado de escolaridad 2023 de la mujer elegida";DT
+5;A;3;3;05A0303; Se registra que el nivel educativo es básicos pero en el grado no está en el rango de 1 a 3;Se registra que la mujer está cursando el nivel básico de estudios pero el grado que se registra no está entre primero y tercero básico.;P05A03 = 1 & P05A03B no está en (1,2,3);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P05A03, P05A03B ;"
+P05A03 - Año de escolaridad 2023 de la mujer elegida
+P05A03B - Grado de escolaridad 2023 de la mujer elegida";DT
+5;A;3;4;05A0304; Se registra que el nivel educativo es diversificado pero en el grado no está en el rango de 4 a 7;Se registra que la mujer está cursando el nivel diversificado de estudios pero el grado que se registra no está entre cuarto y septimo diversificado.;P05A03 = 1 & P05A03B no está en (4,5,6,7);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P05A03, P05A03B ;"
+P05A03 - Año de escolaridad 2023 de la mujer elegida
+P05A03B - Grado de escolaridad 2023 de la mujer elegida";DT
+5;B;1;1;05B0101;No se registra ninguna manifestación de violencia y la sección de caracterización de la agresión tiene información ;La mujer indica que no ha sufrido ninguna manifestación de violencia en el ámbito escolar y la sección de caracterización de la agresión contiene información.;P05B01 = 2 & (P05C01 no es (vacío) | P05C02 no es (vacío) | P05C02 no es (vacío) | P05C04 no es (vacío));;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P05B01, P05C01, P05C02, P05C03, P05C04 ;"P05B01 - Manifestación de violencia en el ámbito escolar
+P05C01 - Agresor en ámbito escolar
+P05C02 - Frecuencia de agresión en el último año en ámbito escolar
+P05C03 - Agresor en el último año en ámbito escolar
+P05C04 - Lugar de la agresión en el ámbito escolar ";DT
+5;B;1;2;05B0102;No se registra ninguna manifestación de violencia y la sección de búsqueda de apoyo y denuncia tiene información ;La mujer indica que no ha sufrido ninguna manifestación de violencia en el ámbito escolar y la sección de búsqueda de apoyo y denuncia contiene información.;P05B01 = 2 & (P05D01 no es (vacío) | P05D02 no es (vacío) | P05D02A no es (vacío) | P05D03 no es (vacío) | P05D04A no es (vacío) | P05D04B no es (vacío) | P05D05 no es (vacío) | P05D05A no es (vacío) | P05D06 no es (vacío) | P05D07 no es (vacío) | P05D08 no es (vacío) | P05D09 no es (vacío) | P05D10 no es (vacío) | P05D11 no es (vacío) | P05D12 no es (vacío) | P05D13 no es (vacío) | P05D14 no es (vacío) |P05D15 no es (vacío) | P05E01 no es (vacío) | P05E01A no es (vacío));;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P05B01, P05D01, P05D02, P05D02A, P05D03, P05D04A, P05D04B, P05D05, P05D05A, P05D06, P05D07, P05D08, P05D09, P05D10, P05D11, P05D12, P05D13, P05D14, P05D15, P05E01, P05E01A;"P05B01 - Manifestación de violencia en el ámbito escolar
+P05D01 - Contó la agresión en el ámbito escolar
+P05D02 - A quién contó sobre agresión en el ámbito escolar
+P05D02A - Otra persona a quién contó sobre agresión en el ámbito escolar
+P05D03 - Busqueda de ayuda por agresión en ámbito escolar
+P05D04A - Queja por parte de la entrevistada o algún familiar por la agresión en el ámbito escolar
+P05D04B - Denuncia por parte de la entrevistada o algún familiar por la agresión en el ámbito escolar
+P05D05 - Entidad pública en la que buscó ayuda ámbito escolar
+P05D05A - Otra entidad pública en la que buscó ayuda ámbito escolar
+P05D06 - Tipo de apoyo solicitado ámbito escolar
+P05D07 - Período de busqueda de apoyo ámbito escolar
+P05D08 - Atención de la entidad por violencia ámbito escolar
+P05D09 - Calidad de atención de la entidad ámbito escolar
+P05D10 - Idioma de atención en la entidad ámbito escolar
+P05D11 - Entidad pública en la denunció ámbito escolar
+P05D12 - Período de denuncia ámbito escolar
+P05D13 - Recepción de denuncia ámbito escolar 
+P05D14 - Resultado de denuncia ámbito escolar
+P05D15 - Razón de no busqueda de ayuda o denuncia en ambito escolar
+P05E01 - Consecuencias de la agresión en el ambito escolar
+P05E01A - Otra consecuencia por agresión en el ámbito escolar ";DT
+5;B;1;3;05B0103;Se registra por lo menos una manifestación de violencia y no hay información de la caracterización de la agresión ;La mujer indica que ha sufrido por lo menos una manifestación de violencia en el ámbito escolar y no hay información del agresor y frecuencia de ocurrencia en el último año.;P05B01 = 1 & (P05C01 es (vacío) | P05C02 es (vacío));;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P05B01, P05C01, P05C02;"P05B01 - Manifestación de violencia en el ámbito escolar
+P05C01 - Agresor en ámbito escolar
+P05C02 - Frecuencia de agresión en el último año en ámbito escolar";DT
+5;B;1;4;05B0104;Se registra por lo menos una manifestación de violencia y no hay información en las variables que preguntan si buscó ayuda o denunció;La mujer indica que ha sufrido por lo menos una manifestación de violencia en el ámbito escolar y no hay información en las variables que preguntan si contó a alguien, pidió ayuda o si ella o algún familiar denunció lo sucedido. ;P05B01 = 1 & (P05D01 es (vacío) | P05D03 es (vacío) | P05D04A es (vacío) | P05D04B es (vacío));;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P05B01, P05D01, P05D03, P05D04A, P05D04B;"P05B01 - Manifestación de violencia en el ámbito escolar
+P05D01 - Contó la agresión en el ámbito escolar
+P05D03 - Busqueda de ayuda por agresión en ámbito escolar 
+P05D04A - Queja por parte de la entrevistada o algún familiar por la agresión en el ámbito escolar
+P05D04B - Denuncia por parte de la entrevistada o algún familiar por la agresión en el ámbito escolar";DT
+5;C;2;1;05C0201;Se registra frecuencia de agresión en el último año pero se indicó que no asiste a un centro educativo en el último año ;La mujer indicó que no asiste a ningún centro educativo actualmente y se registra respuesta en la variable de frecuencia de manifestación de la agresión en el último año.;P05B01 = 1 & P05A02 = 2 & P05C02 no es (vacío);;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P05B01, P05A02, P05C02;"P05B01 - Manifestación de violencia en el ámbito escolar
+P05A02 - Asistencia escolar de la mujer elegida durante 2023
+P05C02 - Frecuencia de agresión en el último año en ámbito escolar ";DT
+5;C;2;2;05C0202;Se registra una frecuencia positiva en la variable de frecuencia de agresión y no se registra agresor ni lugar de la agresión;La mujer indica que ha sufrido agresión muchas veces, pocas veces o una vez y no se tiene información en la variable de agresor o del lugar de la agresión ;P05C02 está en (1,2,3) & P05C03 es (vacío) | P05C04 es (vacío));;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P05B01, P05C02, P05C03, P05C04 ;"P05B01 - Manifestación de violencia en el ámbito escolar
+P05C02 - Frecuencia de agresión en el último año en ámbito escolar
+P05C03 - Agresor en el último año en ámbito escolar
+P05C04 - Lugar de la agresión en el ámbito escolar";DT
+5;C;2;3;05C0203;Se registra una frecuencia negativa en la variable de frecuencia de agresión y se registra agresor y lugar de la agresión;La mujer indica que no ha sufrido agresión en el último año y hay información en la variable de agresor o del lugar de la agresión ;P05C02 = 4 & P05C03 no es (vacío) | P05C04 no es (vacío));;P01A02, P01A03, P01A04, P01A05, P01A06, P01A08, COD_UPM, P05B01, P05C02, P05C03, P05C04 ;"P05B01 - Manifestación de violencia en el ámbito escolar
+P05C02 - Frecuencia de agresión en el último año en ámbito escolar
+P05C03 - Agresor en el último año en ámbito escolar
+P05C04 - Lugar de la agresión en el ámbito escolar";DT
+5;D;1;1;05D0101;Indica que le contó lo ocurrido a alguien y no indica quién;La mujer indica que le contó lo ocurrido a alguien y no se especifíca a quién ;P05D01 = 1 & P05D02 es (vacío);;;;
+5;D;1;2;05D0102;Indica que no le contó lo ocurrido a nadie y se registra información en variable de persona a la que contó lo ocurrido;La mujer indica que no le contó lo ocurrido a nadie y se registra información en la variable de persona a la que le contó lo ocurrido.;P05D01 = 2 & P05D02 no es (vacío);;;;
+5;D;3;1;05D0301;Indica que no pidió apoyo y hay información registrada en la sección de apoyo y denuncia ;La mujer indica que no pidió apoyo ni denunció y se tiene información registrada en la sección de busqueda de ayuda y denuncia.;(P05D03 = 2 & P05D04A = 2 & P05D04B = 2) & (P05D05 no es (vacío) | P05D05A no es (vacío) | P05D06 no es (vacío) | P05D07 no es (vacío) | P05D08 no es (vacío) | P05D09 no es (vacío) | P05D10 no es (vacío) | P05D11 no es (vacío) | P05D12 no es (vacío) | P05D13 no es (vacío) | P05D14 no es (vacío));;;;
+5;D;13;1;05D1301;Denunció pero no atendieron su denuncia y tiene información en resultado de queja o denuncia recibida;La mujer indica que puso una denuncia pero no la recibieron porque le dijeron que no procedía, le ofrecieron conciliación, no le creyeron, dudaro de su relato y no hicieron caso de su queja o denuncia, la convencieron de no poner su queja o denuncia, no hicieron nada para ayudarle, le dijeron que fue su culpa, le dijeron que era algo sin importancia, la trataron mal, la humillaron o por otra razón y tiene información en resultado de la queja o denuncia.;P05D13 está en (4,5,6,7,8,9,10,11,12) & P05D14 no es (vacío);;;;
+5;D;13;2;05D1302;Denunció y le recibieron la denuncia pero no se registra que resultado tuvo la queja o denuncia;La mujer indica que puso una denuncia y que se la aceptaron pero no se registra que resultado tuvo la queja o denuncia. ;P05D13 está en (1,2,3) & P05D14 es (vacío);;;;
+5;D;15;1;05D1501;Indica que no se quejó, pidio ayuda o presentó denuncia y no se registra la razón;La mujer indica que no buscó ayuda o denunció lo ocurrido y no se registra la razón del porque no lo hizo. ;(P05D03 = 2 & P05D04A = 2 & P05D04B = 2) & P05D15 es (vacío);;;;
+5;E;1;1;5.00E+101;No se reporta la consecuencia de la manifestación de violencia;La mujer indicó que ha sufrido por lo menos una manifestación de violencia y no se registra las consecuencias que tuvo por la manifestación de violencia que sufrió.;P05B01 = 1 & P05E01 es (vacío) ;;;;
+6;A;1;1;06A0101;Indica que si ha trabajado en algún momento por un ingreso, salario o pago en especie y no se registra información en características específicas ;La mujer indica que ha trabajado alguna vez por un ingreso, salario o pago en especie y no se registra información en el capítulo de características específicas ;P06A01 = 1 & P06A02 es (vacío) ;;;;
+6;A;1;2;06A0102;Indica que nunca ha trabajado y se registra información en el ámbito en el trabajo;La mujer indica que nunca ha trabajado y tiene información en el ámbito en el trabajo.;P06A01 = 2 & (P06A02 no es (vacío) | P06A03 no es (vacío) | P06A04 no es (vacío) | P06A05 no es (vacío) | P06A06 no es (vacío) | P06A06A no es (vacío) | P06B01A no es (vacío) | P06B01B no es (vacío) | P06B01C no es (vacío) | P06B01D no es (vacío) | P06B01E no es (vacío) | P06B01F no es (vacío) | P06B01G no es (vacío) | P06B01H no es (vacío) | P06B01I no es (vacío) | P06B01J no es(vacío) | P06B02A no es (vacío) | P06B02B no es (vacío) | P06B02C no es (vacío) | P06B02D no es (vacío) | P06B02E no es (vacío) | P06D15 no es (vacío) | P06E01 no es (vacío) | P06B03 no es (vacío) | P06C01 no es (vacío) | P06C02 no es (vacío) | P06C03 no es (vacío) | P06C04 no es (vacío) | P06D01 no es (vacío) | P06D02 no es (vacío) | P06D02A no es (vacío) | P06D03 no es (vacío) | P06D04A  no es (vacío) | P06D04B no es (vacío) | P06D05 no es (vacío) | P06D05A no es (vacío) | P06D06 no es (vacío) | P06D07 no es (vacío) | P06D08 no es (vacío) | P06D09 no es (vacío) | P06D10 no es (vacío) | P06D11 no es (vacío) | P06D12 no es (vacío) | P06D13 no es (vacío) | P06D14 no es (vacío));;;;
