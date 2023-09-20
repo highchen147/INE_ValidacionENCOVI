@@ -68,7 +68,10 @@ def subir_a_drive(path):
                   "1vnV-ZG8wV2rsqhchdL-smq40Umou2kOi", "1FgEQUJqGMji-ZgZC2iJRt_tSIAIXeIc9",
                   "1PPtX91YC8-WjaVnYwjCXtH5hOj8VEC0T", "1446aFRdTnCenRGTZ8esk_lKDUxPX0vrr",
                   "1k2Zi8lb0PZhSYnzYkTHeYWNplAk2H-H3", "19NU24P_peExuvFQOQ7TkpP2tvJiUPuPp",
-                  "1PHa2uLyxx4kWef6SRv3d3LBBwNiX6PmC", "1EXOrQt22liQhi7aKbiO7Si_VJ2jx9M35"]
+                  "1PHa2uLyxx4kWef6SRv3d3LBBwNiX6PmC", "1EXOrQt22liQhi7aKbiO7Si_VJ2jx9M35",
+                  "1bl8QuCiGstj2pp94bb8Dlt80raY2LdMz", "1GYD1TRsPAeNQAheFx1KXJSPT5SQ6wVeS",
+                  "1h00hc4CIXp6CojAckJn23MKUrtVX5xZx", "1DwFSvYGWfZCc53iPCFe-oFpcXnVaJ5GP",
+                  "1P4e7uriJASRfE3BKasUYA-iTb4rbgSp-"]
     
 
     for file, folder_id in zip(files, folder_ids):

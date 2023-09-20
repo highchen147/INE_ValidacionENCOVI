@@ -11,7 +11,7 @@ class baseSQL:
             # Parámetros de conexión
             usuario = 'rrcastillo'
             contraseña = 'Rcastillo2023'
-            host = '10.0.0.90'
+            host = '20.10.8.4'
             puerto = '3308'
             # Crear la conexión de SQLAlchemy
             engine = create_engine(f'mysql+mysqlconnector://{usuario}:{contraseña}@{host}:{puerto}/encabih')
