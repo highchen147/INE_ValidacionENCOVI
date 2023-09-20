@@ -26,7 +26,7 @@ ex <- tryCatch({
                    user = 'rrcastillo', 
                    password = 'Rcastillo2023', 
                    dbname = 'encabih', 
-                   host = '10.0.0.90', 
+                   host = '20.10.8.4', 
                    port=3308)
   
   #Obtener datos de ocupaciones
