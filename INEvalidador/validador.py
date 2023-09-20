@@ -22,13 +22,13 @@ from .conexionSQL import baseSQL
 
 
 class Validador:
-    def __init__(self, ruta_expresiones: str="estructuras.xlsx", descargar: bool=True):
+    def __init__(self, ruta_expresiones: str="estructuras(1).xlsx", descargar: bool=True):
         self.df_ = pd.DataFrame
         # nuevo
         self.sql = baseSQL(descargar)
         self.df = pd.DataFrame
         self.expresiones = pd.read_excel(ruta_expresiones, sheet_name="Validaciones")
-        self.columnas = ["P01A02", "P01A03","P01A04","P01A05","P01A06","P01A07", "CP","P01D10B"] # Cambiar nombres
+        self.columnas = ["P01A02", "P01A03","P01A04", "COD_UPM","P01A05","P01A06","P01A07", "CP","P01D10B"] # Cambiar nombres
         self._capturar_converciones = False
         self.__replacements = {
             '<=': '<=',
@@ -122,7 +122,7 @@ class Validador:
             if op == '==':
                 condicion_convertida = condicion_convertida.replace(f'{var} {op} (vacio)', f'{var} == ""')
             elif op == '!=':
-                condicion_convertida = condicion_convertida.replace(f'{var} {op} (vacio)', f'{var} != ""')
+                condicion_convertida = condicion_convertida.replace(f'{var} {op} (vacio)', f'(~{var}.isna() & {var} != "" )')
 
         # Reemplaza los símbolos y frases con su equivalente en Python
         condicion_convertida = self.__patron.sub(self.__translate, condicion_convertida)
@@ -150,6 +150,11 @@ class Validador:
                     condicion_convertida = condicion_convertida.replace(f'{col} {tipo} ""', f'{col}.isnull()')       #modificaciones para variables tipo numérica
                 if tipo == "!=":
                     condicion_convertida = condicion_convertida.replace(f'{col} {tipo} ""', f'~{col}.isnull()')       #modificaciones para variables tipo numérica
+            else:
+                if tipo == "==":
+                    condicion_convertida = condicion_convertida.replace(f'{col} {tipo} ""', f'({col}.isna() | {col} == "" )') 
+                if tipo == "!=":
+                    condicion_convertida = condicion_convertida.replace(f'{col} {tipo} ""', f'(~{col}.isna() & {col} != "" )')   
         return condicion_convertida
 
     def filter_base(self, condicion: str, columnas: list, fecha_inicio, fecha_final) -> pd.DataFrame:
@@ -211,7 +216,7 @@ class Validador:
                     Validacion["CODIGO ERROR"] = cod
                     Validacion["COMENTARIOS"] = None
                     Validacion["CONDICION"] = cond
-                    Validacion = Validacion[["P01D10B","P01A02","P01A03","P01A04","P01A05","P01A06","P01A07","CP","CAPITULO","SECCION","PREGUNTA","DEFINICION DE INCONSISTENCIA","CODIGO ERROR","COMENTARIOS"]]
+                    Validacion = Validacion[["P01D10B","P01A02","P01A03","P01A04", "COD_UPM", "P01A05","P01A06","P01A07","CP","CAPITULO","SECCION","PREGUNTA","DEFINICION DE INCONSISTENCIA","CODIGO ERROR", "CONDICION","COMENTARIOS"]]
                     dfs.append(Validacion)  # Agregar el dataframe a la lista de dataframes
                 except Exception as e:
                     # Manejar error específico de una expresión
@@ -229,9 +234,10 @@ class Validador:
             df_power = pd.concat(dfs) # Hacer copia de los dfs para exportar por supervisor luego
             df_power = df_power.drop_duplicates()
             df_power.to_csv(os.path.join(carpeta_padre, f'InconsistenciasPowerBi_{dia}-{mes}-{año}.csv'), index=False)
+            df_power.to_excel(os.path.join(carpeta_padre, f'InconsistenciasPowerBi_{dia}-{mes}-{año}.xlsx'), index=False)
 
-            df_resumen = (df_power[["CODIGO ERROR","DEFINICION DE INCONSISTENCIA"]]
-                          .groupby(by=["CODIGO ERROR", "DEFINICION DE INCONSISTENCIA"])
+            df_resumen = (df_power[["CODIGO ERROR","CONDICION", "DEFINICION DE INCONSISTENCIA"]]
+                          .groupby(by=["CODIGO ERROR", "CONDICION","DEFINICION DE INCONSISTENCIA"])
                           .size()
                           .reset_index(name='Frecuencia'))
             
@@ -375,20 +381,23 @@ class Validador:
                 files_dict[group_number] = f
 
         folder_ids = ["1GpxN_g67E0Knv7ZLn7kPRbi2UmfUVvf2", "17wcfDgZ845YaHOxUVAXmWUmuczq488BF", 
-                      "1cGCdFA3Z3KhlWptDAM7sPZWdiNooNM1b", "11_vpDaoRpqhQa_DSwpYb3ZbG9xQzhmEi",
-                      "1hFuQ_Ku6etXD0AqcXJGvJ0EHWtv5-a0_", "1ZO6nCuqoq_svJM6nwCEmV5o4qs45V4v_",
-                      "1IuJ3eyumCsNCMXfwDCQc-X0CoiN0mtxR", "1A6pPWlukIKm4t51qFVVNBF2C-ILeOW-g",
-                      "1LuuoRaJUXCBuknLwCG5RZ_OLdvWeH6vT", "18jiONAOXChea3ZQ-YZ88jdeOUaEWu2Ha",
-                      "1Yw3akBEgwaJQLm4HFKs25Jpw4mtNF8Ba", "12LgkIqzf5ekODHf5V2VerpFUHFVBtRDk",
-                      "11tAwIphvrrrNt-ta22edAQJIEjYBPrSF", "1n2yVmQ2764Ve1sDGkJRQdjps_r2W7o7W",
-                      "1TPoUxqFlRn_cS549o55mrGU7Pgm9FfSD", "1qjwISv5o4ziIXDicwaj2u9yj3516qy2X",
-                      "1uymvnmhMbNW-1Jnts2DZiEGxyUe7lpW2", "1yOlFTJFX49jTxoE7rwUPtzF0_O2hT981",
-                      "1prwl8vWDMLxHL9K5A7GS28xrYsKwUkoc", "1xfDbm9yBX5AJHkNVyoHgR20cU4rSylJl",
-                      "16zF8jOB_UEDzrGkN0S0gDfYzh0My42da", "1AdaH2pslrrpYuwgRPNHO7mKXoxm2-3i4",
-                      "1vnV-ZG8wV2rsqhchdL-smq40Umou2kOi", "1FgEQUJqGMji-ZgZC2iJRt_tSIAIXeIc9",
-                      "1PPtX91YC8-WjaVnYwjCXtH5hOj8VEC0T", "1446aFRdTnCenRGTZ8esk_lKDUxPX0vrr",
-                      "1k2Zi8lb0PZhSYnzYkTHeYWNplAk2H-H3", "19NU24P_peExuvFQOQ7TkpP2tvJiUPuPp",
-                      "1PHa2uLyxx4kWef6SRv3d3LBBwNiX6PmC", "1EXOrQt22liQhi7aKbiO7Si_VJ2jx9M35"]
+                "1cGCdFA3Z3KhlWptDAM7sPZWdiNooNM1b", "11_vpDaoRpqhQa_DSwpYb3ZbG9xQzhmEi",
+                "1hFuQ_Ku6etXD0AqcXJGvJ0EHWtv5-a0_", "1ZO6nCuqoq_svJM6nwCEmV5o4qs45V4v_",
+                "1IuJ3eyumCsNCMXfwDCQc-X0CoiN0mtxR", "1A6pPWlukIKm4t51qFVVNBF2C-ILeOW-g",
+                "1LuuoRaJUXCBuknLwCG5RZ_OLdvWeH6vT", "18jiONAOXChea3ZQ-YZ88jdeOUaEWu2Ha",
+                "1Yw3akBEgwaJQLm4HFKs25Jpw4mtNF8Ba", "12LgkIqzf5ekODHf5V2VerpFUHFVBtRDk",
+                "11tAwIphvrrrNt-ta22edAQJIEjYBPrSF", "1n2yVmQ2764Ve1sDGkJRQdjps_r2W7o7W",
+                "1TPoUxqFlRn_cS549o55mrGU7Pgm9FfSD", "1qjwISv5o4ziIXDicwaj2u9yj3516qy2X",
+                "1uymvnmhMbNW-1Jnts2DZiEGxyUe7lpW2", "1yOlFTJFX49jTxoE7rwUPtzF0_O2hT981",
+                "1prwl8vWDMLxHL9K5A7GS28xrYsKwUkoc", "1xfDbm9yBX5AJHkNVyoHgR20cU4rSylJl",
+                "16zF8jOB_UEDzrGkN0S0gDfYzh0My42da", "1AdaH2pslrrpYuwgRPNHO7mKXoxm2-3i4",
+                "1vnV-ZG8wV2rsqhchdL-smq40Umou2kOi", "1FgEQUJqGMji-ZgZC2iJRt_tSIAIXeIc9",
+                "1PPtX91YC8-WjaVnYwjCXtH5hOj8VEC0T", "1446aFRdTnCenRGTZ8esk_lKDUxPX0vrr",
+                "1k2Zi8lb0PZhSYnzYkTHeYWNplAk2H-H3", "19NU24P_peExuvFQOQ7TkpP2tvJiUPuPp",
+                "1PHa2uLyxx4kWef6SRv3d3LBBwNiX6PmC", "1EXOrQt22liQhi7aKbiO7Si_VJ2jx9M35",
+                "1bl8QuCiGstj2pp94bb8Dlt80raY2LdMz", "1GYD1TRsPAeNQAheFx1KXJSPT5SQ6wVeS",
+                "1h00hc4CIXp6CojAckJn23MKUrtVX5xZx", "1DwFSvYGWfZCc53iPCFe-oFpcXnVaJ5GP",
+                "1P4e7uriJASRfE3BKasUYA-iTb4rbgSp-"]
         
 
             # Recorremos la lista de IDs de carpeta
