@@ -22,13 +22,13 @@ from .conexionSQL import baseSQL
 
 
 class Validador:
-    def __init__(self, ruta_expresiones: str="estructuras(1).xlsx", descargar: bool=True):
+    def __init__(self, ruta_expresiones: str="estructuras(2).xlsx", descargar: bool=True):
         self.df_ = pd.DataFrame
         # nuevo
         self.sql = baseSQL(descargar)
         self.df = pd.DataFrame
         self.expresiones = pd.read_excel(ruta_expresiones, sheet_name="Validaciones")
-        self.columnas = ["P01A02", "P01A03","P01A04", "COD_UPM","P01A05","P01A06","P01A07", "CP","P01D10B"] # Cambiar nombres
+        self.columnas = ["P01D10A", "P01A02", "P01A03","P01A04", "COD_UPM","P01A05","P01A06","P01A07", "CP","P01D10B"] # Cambiar nombres
         self._capturar_converciones = False
         self.__replacements = {
             '<=': '<=',
@@ -213,10 +213,29 @@ class Validador:
                     Validacion["CAPITULO"] = cap
                     Validacion["PREGUNTA"] = preg
                     Validacion["DEFINICION DE INCONSISTENCIA"] = desc
-                    Validacion["CODIGO ERROR"] = cod
+                    Validacion["CODIGO DE INCONSISTENCIA"] = cod
                     Validacion["COMENTARIOS"] = None
                     Validacion["CONDICION"] = cond
-                    Validacion = Validacion[["P01D10B","P01A02","P01A03","P01A04", "COD_UPM", "P01A05","P01A06","P01A07","CP","CAPITULO","SECCION","PREGUNTA","DEFINICION DE INCONSISTENCIA","CODIGO ERROR", "CONDICION","COMENTARIOS"]]
+                    Validacion = Validacion[["P01D10B", 
+                                             "P01D10A", 
+                                             "P01A02",
+                                             "P01A03",
+                                             "P01A04", 
+                                             "P01A05",
+                                             "P01A06",
+                                             "P01A07",
+                                             "COD_UPM", 
+                                             "CP",
+                                             "CAPITULO",
+                                             "SECCION",
+                                             "PREGUNTA",
+                                             "CODIGO DE INCONSISTENCIA",
+                                             "DEFINICION DE INCONSISTENCIA",
+                                            #  "CONDICION",
+                                             "COMENTARIOS"]]
+                    Validacion = Validacion.rename(columns={"CP": "CP/CP_ELEGIDA",
+                                                            # "CODIGO DE INCONSISTENCIA": "CODIGO INCONSISTENCIA"
+                                                            })
                     dfs.append(Validacion)  # Agregar el dataframe a la lista de dataframes
                 except Exception as e:
                     # Manejar error específico de una expresión
@@ -236,8 +255,8 @@ class Validador:
             df_power.to_csv(os.path.join(carpeta_padre, f'InconsistenciasPowerBi_{dia}-{mes}-{año}.csv'), index=False)
             df_power.to_excel(os.path.join(carpeta_padre, f'InconsistenciasPowerBi_{dia}-{mes}-{año}.xlsx'), index=False)
 
-            df_resumen = (df_power[["CODIGO ERROR","CONDICION", "DEFINICION DE INCONSISTENCIA"]]
-                          .groupby(by=["CODIGO ERROR", "CONDICION","DEFINICION DE INCONSISTENCIA"])
+            df_resumen = (df_power[["CODIGO DE INCONSISTENCIA", "DEFINICION DE INCONSISTENCIA"]]
+                          .groupby(by=["CODIGO DE INCONSISTENCIA","DEFINICION DE INCONSISTENCIA"])
                           .size()
                           .reset_index(name='Frecuencia'))
             
@@ -323,7 +342,7 @@ class Validador:
 
                 # Guardar el DataFrame combinado en output_folder
                 output_file = f"{self.ruta_salida_final}/InconsistenciasGRUPO{group_number}_{date_str}.xlsx"
-                df_concatenated.to_excel(output_file, index=False)
+                df_concatenated.sort_values(by=["COD_UPM", "CODIGO DE INCONSISTENCIA"]).to_excel(output_file, index=False)
 
     def subir_a_drive(self, ruta):
         dia = datetime.now().day
