@@ -18,8 +18,14 @@ def columnas_a_mayuscula(df: pd.DataFrame):
     return df
 
 def condicion_a_variables(condicion: str) -> List[str]:
-    # La expresión regular coincide con cualquier cadena que comience con una letra mayúscula seguida de números y letras mayúsculas
-    pattern = r'\b(?:[A-Z][A-Z0-9]+|CP_ELEGIDA)\b'
+    # La expresión regular coincide con palabras que consisten en letras, números y guiones bajos (_), separadas por guiones bajos
+    pattern = r'\b[A-Z][A-Z0-9]+(?:_[A-Z0-9]+)*\b'
+    # Utilizamos la función findall para encontrar todas las coincidencias en el texto
+    return tuple(set(re.findall(pattern, condicion)))
+
+def condicion_a_variables_og(condicion: str) -> List[str]:
+    # La expresión regular coincide con palabras que consisten en letras, números y guiones bajos (_), separadas por guiones bajos
+    pattern = r'\b[A-Z][A-Z0-9]+\b'
     # Utilizamos la función findall para encontrar todas las coincidencias en el texto
     return tuple(set(re.findall(pattern, condicion)))
 
