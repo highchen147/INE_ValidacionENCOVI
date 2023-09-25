@@ -111,7 +111,10 @@ class baseSQL:
 
         # Agregar código CP = 0 para las validaciones de hogares
         if "CP" not in df_base.columns:
-            df_base["CP"] = 0
+            if "CP_ELEGIDA" in df_base.columns:
+                df_base["CP"] = df_base["CP_ELEGIDA"]
+            else:
+                df_base["CP"] = 0
 
         # Agregar filtrado por fecha tomando el capítulo 1 como inicio de la encuesta
         # if "FECHA_INICIO_BOLETA" in df_base.columns: # CAMBIAR NOMBRE DE VARIABLE DE FECHA DE INICIO DEL CAPÍTULO
