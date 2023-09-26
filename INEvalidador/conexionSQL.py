@@ -80,25 +80,19 @@ class baseSQL:
         # Agregar dataframe con control_entrevista
         control_df = pd.read_feather("db/control_entrevista.feather")
         control_df = columnas_a_mayuscula(control_df)
+
+        resultado_df = pd.read_feather("db/resultados_de_la_entrevista.feather")
+        resultado_df = columnas_a_mayuscula(resultado_df)
+
         # Unir a base raiz
         df_base = pd.merge(df_base, visitas_df, on="LEVEL-1-ID", how="inner")
         df_base = df_base.drop("INDEX", axis=1)
         df_base = pd.merge(df_base, control_df, on="LEVEL-1-ID", how="inner")
         df_base = df_base.drop("INDEX", axis=1)
         df_base = pd.merge(df_base, caratula_df, on='LEVEL-1-ID', how='inner')  # Unión por 'LEVEL-1-ID'
-        
-        # Si tipo es "SR", agregamos el dataframe "estado_de_boleta_SR.feather"
-        # if tipo == 'SR':
-        #     # Agregar dataframe estado boleta
-        #     estado_boleta_df = pd.read_feather('db/estado_de_boleta_SR.feather')
-        #     estado_boleta_df = columnas_a_mayuscula(estado_boleta_df)
-        #     # Agregar dataframe de control de tiempo
-        #     tiempo_sr_df = pd.read_feather("db/control_tiempo_SR.feather")
-        #     tiempo_sr_df = columnas_a_mayuscula(tiempo_sr_df)
-        #     # Unir a base raiz
-        #     df_base = pd.merge(df_base, tiempo_sr_df, on="LEVEL-1-ID", how="inner")
-        #     df_base = df_base.drop("INDEX",axis=1)
-        #     df_base = pd.merge(df_base, estado_boleta_df, on='LEVEL-1-ID', how='inner')  # Unión por 'LEVEL-1-ID'
+        # Unir con resultado de la entrevista
+        # df_base = df_base.drop("INDEX", axis=1)
+        # df_base = pd.merge(df_base, resultado_df, on='LEVEL-1-ID', how="inner")
 
         # Validar solo las encuestas terminadas
         if "P01D08" in df_base.columns and "P01D07" in df_base.columns: 
