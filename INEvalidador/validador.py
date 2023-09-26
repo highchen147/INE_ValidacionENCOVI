@@ -53,6 +53,19 @@ class Validador:
 
         self.dic_upms = extraer_UPMS()
         
+        # Contemplando algunas validaciones que tengan que excluirse
+        self.validaciones_excluir = ["08B0102", 
+                                     "09C0102",
+                                     "08A0802",
+                                     "09D1302",
+                                     "04A0801",
+                                     "03D0103",
+                                     "04A0102",
+                                     "03D0102",
+                                     "03A0301"]
+        # Se aplica el filtro para excluir validaciones por su código
+        self.expresiones = self.expresiones.query("`CÓDIGO DE ERROR` not in @self.validaciones_excluir")
+        
     def obtener_carpeta_mas_reciente(self, directorio):
         carpeta_mas_reciente = None
         fecha_mas_reciente = None
@@ -359,7 +372,8 @@ class Validador:
                 creds = pickle.load(token)
 
         if not creds or not creds.valid:
-            flow = InstalledAppFlow.from_client_secrets_file('client_secret_915678628628-e8vekd1kcmhi008jphhrs6dsaflmfia2.apps.googleusercontent.com.json', SCOPES)
+            # 'client_secret_915678628628-e8vekd1kcmhi008jphhrs6dsaflmfia2.apps.googleusercontent.com.json'
+            flow = InstalledAppFlow.from_client_secrets_file('creds2.json', SCOPES)
             creds = flow.run_local_server(port=0)
             with open('token.pickle', 'wb') as token:
                 pickle.dump(creds, token)
