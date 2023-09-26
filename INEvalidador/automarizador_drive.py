@@ -22,7 +22,7 @@ def subir_a_drive(path):
             creds = pickle.load(token)
 
     if not creds or not creds.valid:
-        flow = InstalledAppFlow.from_client_secrets_file('client_secret_915678628628-e8vekd1kcmhi008jphhrs6dsaflmfia2.apps.googleusercontent.com.json', SCOPES)
+        flow = InstalledAppFlow.from_client_secrets_file('creds2.json', SCOPES)
         creds = flow.run_local_server(port=0)
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
